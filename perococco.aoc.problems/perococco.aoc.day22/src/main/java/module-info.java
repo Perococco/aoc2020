@@ -1,0 +1,13 @@
+import perococco.aoc.day22.Day22Part1Solver;
+import perococco.aoc.day22.Day22Part2Solver;
+import perococco.aoc.api.AOCProblem;
+
+module perococco.aoc.day22 {
+    requires static lombok;
+
+    requires perococco.aoc.input;
+
+    exports perococco.aoc.day22;
+
+    provides AOCProblem with Day22Part1Solver, Day22Part2Solver;
+}

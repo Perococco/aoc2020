@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>perococco.aoc2020</groupId>
+        <artifactId>aoc-maven</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../maven/pom.xml</relativePath>
+    </parent>
+    <packaging>pom</packaging>
+
+    <artifactId>aoc-problems</artifactId>
+
+    <name>${project.name} - ${module.name}</name>
+
+    <properties>
+        <module.name>Problems</module.name>
+    </properties>
+
+    <modules>
+        <module>perococco.aoc.day01</module>
+        <module>perococco.aoc.day02</module>
+        <module>perococco.aoc.day03</module>
+        <module>perococco.aoc.day04</module>
+        <module>perococco.aoc.day05</module>
+        <module>perococco.aoc.day06</module>
+        <module>perococco.aoc.day07</module>
+        <module>perococco.aoc.day08</module>
+        <module>perococco.aoc.day09</module>
+        <module>perococco.aoc.day10</module>
+        <module>perococco.aoc.day11</module>
+        <module>perococco.aoc.day12</module>
+        <module>perococco.aoc.day13</module>
+        <module>perococco.aoc.day14</module>
+        <module>perococco.aoc.day15</module>
+        <module>perococco.aoc.day16</module>
+        <module>perococco.aoc.day17</module>
+        <module>perococco.aoc.day18</module>
+        <module>perococco.aoc.day19</module>
+        <module>perococco.aoc.day20</module>
+        <module>perococco.aoc.day21</module>
+        <module>perococco.aoc.day22</module>
+        <module>perococco.aoc.day23</module>
+        <module>perococco.aoc.day24</module>
+        <module>perococco.aoc.day25</module>
+    </modules>
+
+</project>
