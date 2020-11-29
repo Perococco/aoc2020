@@ -6,6 +6,8 @@ module perococco.aoc.launcher {
     requires perococco.aoc.api;
     requires perococco.aoc.common;
 
+    requires com.google.common;
+
     exports perococco.aoc.launcher;
     uses AOCProblem;
 }

@@ -7,7 +7,7 @@ import perococco.aoc.launcher._private.Launcher;
 public class Launch {
 
     public static void main(String[] args) {
-        new Launcher(new Problem(args)).launch();
+        Launcher.launch(new Problem(args));
     }
 
 }

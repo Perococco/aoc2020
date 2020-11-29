@@ -1,20 +1,26 @@
 package perococco.aoc.launcher._private;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perococco.aoc.api.AOCProblem;
+import perococco.aoc.launcher.Launch;
 
 import java.io.PrintStream;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Launcher {
+
+    public static void launch(@NonNull AOCProblem<?> problem) {
+        new Launcher(problem).launch();
+    }
 
     @NonNull
     @Getter
     private final AOCProblem<?> problem;
 
-    public void launch() {
+    private void launch() {
         try {
             final Object solution = problem.solve();
             displayMessage(String.valueOf(solution));
