@@ -1,11 +1,10 @@
 package perococco.aoc.day1;
 
 import lombok.NonNull;
+import perococco.aoc.api.AOCProblem;
 import perococco.aoc.input.Converter;
 import perococco.aoc.input.SmartSolver;
-import perococco.aoc.api.AOCProblem;
 
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Day1Part2Solver extends SmartSolver<Stream<String>, Object> {

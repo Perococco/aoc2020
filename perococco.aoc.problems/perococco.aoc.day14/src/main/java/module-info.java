@@ -1,6 +1,6 @@
+import perococco.aoc.api.AOCProblem;
 import perococco.aoc.day14.Day14Part1Solver;
 import perococco.aoc.day14.Day14Part2Solver;
-import perococco.aoc.api.AOCProblem;
 
 module perococco.aoc.day14 {
     requires static lombok;

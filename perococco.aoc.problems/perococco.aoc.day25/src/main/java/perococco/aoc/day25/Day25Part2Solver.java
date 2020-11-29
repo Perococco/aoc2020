@@ -1,9 +1,9 @@
 package perococco.aoc.day25;
 
 import lombok.NonNull;
+import perococco.aoc.api.AOCProblem;
 import perococco.aoc.input.Converter;
 import perococco.aoc.input.SmartSolver;
-import perococco.aoc.api.AOCProblem;
 
 import java.util.stream.Stream;
 

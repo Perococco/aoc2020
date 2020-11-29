@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perococco.aoc.api.AOCProblem;
-import perococco.aoc.launcher.Launch;
 
 import java.io.PrintStream;
 
