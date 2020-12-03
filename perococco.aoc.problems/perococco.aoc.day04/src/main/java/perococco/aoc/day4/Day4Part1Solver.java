@@ -7,7 +7,7 @@ import perococco.aoc.input.SmartSolver;
 
 import java.util.stream.Stream;
 
-public class Day4Part1Solver extends SmartSolver<Stream<String>,Object> {
+public class Day4Part1Solver extends SmartSolver<Stream<String>,Long> {
 
     public static @NonNull AOCProblem<?> provider() {
         return new Day4Part1Solver().createProblem().skipped();
@@ -19,7 +19,7 @@ public class Day4Part1Solver extends SmartSolver<Stream<String>,Object> {
     }
 
     @Override
-    public @NonNull Object solve(@NonNull Stream<String> input) {
+    public @NonNull Long solve(@NonNull Stream<String> input) {
         throw new RuntimeException("NOT IMPLEMENTED");
     }
 }
