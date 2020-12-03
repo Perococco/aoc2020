@@ -1,5 +1,6 @@
 package perococco.aoc.input;
 
+import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perococco.aoc.api.AOCProblem;
@@ -31,6 +32,10 @@ public abstract class SmartSolver<I,S> implements Solver<I,S> {
 
     public @NonNull AOCProblem<S> createProblem() {
         return AOCProblemUsingSolver.create(day,part,this,this.getConverter());
+    }
+
+    public @NonNull AOCProblem<S> createProblem(@NonNull ImmutableList<String> lines) {
+        return AOCProblemUsingSolver.create(day,part,this,new ListOfLines(lines),this.getConverter());
     }
 
 }

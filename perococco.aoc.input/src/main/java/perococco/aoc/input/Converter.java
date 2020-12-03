@@ -3,6 +3,7 @@ package perococco.aoc.input;
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import perococco.aoc.common.AOCException;
+import perococco.aoc.common.ArrayOfChar;
 
 import java.util.function.Function;
 import java.util.stream.IntStream;
@@ -27,4 +28,5 @@ public interface Converter<I> extends Function<Stream<String>,I> {
     Converter<String> FIRST_LINE = s -> s.findFirst().orElseThrow(() -> new AOCException("Empty input"));
     Converter<Stream<String>> IDENTITY = s -> s;
     Converter<ImmutableList<String>> ALL_LINES = s -> s.collect(ImmutableList.toImmutableList());
+    Converter<ArrayOfChar> TO_ARRAY_OF_CHAR = s -> s.collect(ArrayOfChar.collector('.'));
 }

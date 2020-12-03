@@ -117,4 +117,8 @@ public class Tools {
     public static ImmutableList<String> convertToAscii(@NonNull String str) {
         return str.chars().mapToObj(Long::toString).collect(ImmutableList.toImmutableList());
     }
+
+    public static int mod(int value, int base) {
+        return (value%base)+(value<0?base:0);
+    }
 }
