@@ -3,6 +3,10 @@ package perococco.aoc.day4;
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import perococco.aoc.api.AOCProblem;
+import perococco.aoc.day4.structures.Passport;
+import perococco.aoc.day4.structures.PassportListBuilder;
+import perococco.aoc.day4.structures.ValidityRule;
+import perococco.aoc.day4.structures.WithCIDOptional;
 import perococco.aoc.input.Converter;
 import perococco.aoc.input.SmartSolver;
 
@@ -20,6 +24,8 @@ public class Day4Part1Solver extends SmartSolver<ImmutableList<Passport>,Long> {
     @Override
     public @NonNull Long solve(@NonNull ImmutableList<Passport> passports) {
         final ValidityRule validityRule = new WithCIDOptional();
-        return passports.stream().filter(validityRule::isValid).count();
+        return passports.stream()
+                        .filter(validityRule::isValid)
+                        .count();
     }
 }

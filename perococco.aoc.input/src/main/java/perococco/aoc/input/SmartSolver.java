@@ -28,12 +28,22 @@ public abstract class SmartSolver<I,S> implements Solver<I,S> {
         this.part = Part.parse(matcher.group(2));
     }
 
+    /**
+     * @return the converter required to convert the input data of the problem to the required type
+     */
     protected abstract @NonNull Converter<I> getConverter();
 
+
+    /**
+     * @return an {@link AOCProblem} using this solver and the resources associated as input
+     */
     public @NonNull AOCProblem<S> createProblem() {
         return AOCProblemUsingSolver.create(day,part,this,this.getConverter());
     }
 
+    /**
+     * @return an {@link AOCProblem} using this solver and the provided lines as input
+     */
     public @NonNull AOCProblem<S> createProblem(@NonNull ImmutableList<String> lines) {
         return AOCProblemUsingSolver.create(day,part,this,new ListOfLines(lines),this.getConverter());
     }

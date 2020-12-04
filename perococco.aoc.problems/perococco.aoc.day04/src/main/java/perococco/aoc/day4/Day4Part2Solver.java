@@ -3,6 +3,10 @@ package perococco.aoc.day4;
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import perococco.aoc.api.AOCProblem;
+import perococco.aoc.day4.structures.Passport;
+import perococco.aoc.day4.structures.PassportListBuilder;
+import perococco.aoc.day4.structures.ValidityRule;
+import perococco.aoc.day4.structures.WithCIDOptionalAndValidValues;
 import perococco.aoc.input.Converter;
 import perococco.aoc.input.SmartSolver;
 

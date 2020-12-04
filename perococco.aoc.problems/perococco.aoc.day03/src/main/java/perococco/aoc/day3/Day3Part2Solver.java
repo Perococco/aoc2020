@@ -2,8 +2,8 @@ package perococco.aoc.day3;
 
 import lombok.NonNull;
 import perococco.aoc.api.AOCProblem;
-import perococco.aoc.common.ArrayOfChar;
 import perococco.aoc.common.Displacement;
+import perococco.aoc.day3.structures.TreeCounter;
 import perococco.aoc.input.Converter;
 import perococco.aoc.input.SmartSolver;
 
