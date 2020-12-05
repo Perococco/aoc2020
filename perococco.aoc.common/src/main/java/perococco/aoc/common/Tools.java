@@ -13,6 +13,10 @@ import java.util.stream.Collector;
 public class Tools {
 
 
+    public static int sumUpTo(int value) {
+        return value*(value+1)/2;
+    }
+
     @SuppressWarnings("unchecked")
     public static <E> E[] createArray(@NonNull Class<E> elementType, int size) {
         return (E[]) Array.newInstance(elementType,size);
