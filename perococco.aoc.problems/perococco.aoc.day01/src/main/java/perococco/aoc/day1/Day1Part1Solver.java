@@ -27,11 +27,11 @@ public class Day1Part1Solver extends SmartSolver<IntStream, Long> {
             if (i < 0 || i >= 2020 || seen[i]) {
                 return -1;
             }
-            seen[i] = true;
             final int complement = 2020-i;
             if (seen[complement]) {
                 return complement*i;
             }
+            seen[i] = true;
             return -1;
         }).filter(p -> p >= 0).findFirst().orElse(-1L);
     }
