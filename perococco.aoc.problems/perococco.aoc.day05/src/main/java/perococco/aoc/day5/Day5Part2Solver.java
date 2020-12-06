@@ -17,7 +17,8 @@ public class Day5Part2Solver extends Day5Solver<Long> {
 
     @Override
     public @NonNull Long solve(@NonNull Stream<BoardingPass> input) {
-        final var statistic = input.mapToInt(b -> b.getSeatId()).summaryStatistics();
+        final var statistic = input.mapToInt(BoardingPass::getSeatId)
+                                   .summaryStatistics();
         final var sumFromMinToMax = Tools.sumUpTo(statistic.getMax()) - Tools.sumUpTo(statistic.getMin() - 1);
         final var missingId = sumFromMinToMax - statistic.getSum();
 
