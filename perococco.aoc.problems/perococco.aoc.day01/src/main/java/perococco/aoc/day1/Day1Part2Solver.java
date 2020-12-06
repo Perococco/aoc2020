@@ -1,67 +1,70 @@
 package perococco.aoc.day1;
 
-import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Table;
 import lombok.NonNull;
 import perococco.aoc.api.AOCProblem;
-import perococco.aoc.input.Converter;
-import perococco.aoc.input.SmartSolver;
+import perococco.aoc.common.AOCException;
 
 import java.util.*;
-import java.util.function.BinaryOperator;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
-public class Day1Part2Solver extends SmartSolver<IntStream, Long> {
+public class Day1Part2Solver extends Day1Solver<Long> {
 
     public static AOCProblem<?> provider() {
         return new Day1Part2Solver().createProblem();
     }
 
     @Override
-    protected @NonNull Converter<IntStream> getConverter() {
-        return Converter.TO_INT_STREAM;
-    }
-
-    @Override
-    public @NonNull Long solve(@NonNull IntStream input) {
-        final Context context = new Context();
-
-        return input.mapToLong(i -> compute(i, context)).filter(i -> i > 0).findFirst().orElse(-1);
-    }
-
-    private long compute(int value, Context context) {
-        if (value <= 0 || value >= 2020) {
-            return -1;
-        }
-
-        {
-            final int complement = 2020 - value;
-            if (context.products[complement] > 0) {
-                return context.products[complement] * value;
+    public @NonNull Long solve(@NonNull int[] input) {
+        final ProductFinder productFinder = new ProductFinder();
+        for (int value : input) {
+            final var solution = productFinder.onNewValue(value);
+            if (solution.isPresent()) {
+                return solution.get();
             }
         }
-
-        for (int val : context.seen) {
-            final int cp = val+value;
-            if (cp<2020) {
-                context.products[cp] = val*value;
-            }
-        }
-        context.seen.add(value);
-
-        return -1;
+        throw new AOCException("Cannot find 3 values that sum to 2020");
     }
 
-    private static class Context {
+    private static class ProductFinder {
 
         private final @NonNull Set<Integer> seen = new HashSet<>();
-        private final @NonNull long[] products = new long[2020];
+        private final @NonNull int[] products = new int[2020];
 
-        public Context() {
-            Arrays.fill(products,-1);
+        public ProductFinder() {
+            Arrays.fill(products, -1);
         }
+
+        public @NonNull Optional<Long> onNewValue(int value) {
+            if (isAnInvalidValue(value)) {
+                return Optional.empty();
+            }
+            final var solution = findSolutionWithAlreadySeenValues(value);
+            if (solution.isPresent()) {
+                return solution;
+            }
+            this.updateComplementProducts(value);
+            seen.add(value);
+            return Optional.empty();
+        }
+
+        private boolean isAnInvalidValue(int value) {
+            return value < 0 || value > 2020;
+        }
+
+        private @NonNull Optional<Long> findSolutionWithAlreadySeenValues(int value) {
+            return Optional.of(products[2020 - value])
+                           .filter(p -> p >= 0)
+                           .map(p -> p * (long)value);
+        }
+
+        private void updateComplementProducts(int value) {
+            for (int val : seen) {
+                final int complement = val + value;
+                if (complement < 2020) {
+                    products[complement] = val * value;
+                }
+            }
+        }
+
+
     }
 }

@@ -2,37 +2,51 @@ package perococco.aoc.day1;
 
 import lombok.NonNull;
 import perococco.aoc.api.AOCProblem;
+import perococco.aoc.common.AOCException;
 import perococco.aoc.input.Converter;
 import perococco.aoc.input.SmartSolver;
 
 import java.util.Arrays;
+import java.util.Optional;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 import java.util.stream.IntStream;
 
-public class Day1Part1Solver extends SmartSolver<IntStream, Long> {
+public class Day1Part1Solver extends Day1Solver<Integer> {
 
     public static AOCProblem<?> provider() {
         return new Day1Part1Solver().createProblem();
     }
 
     @Override
-    protected @NonNull Converter<IntStream> getConverter() {
-        return Converter.TO_INT_STREAM;
+    public @NonNull Integer solve(@NonNull int[] input) {
+        final var finder = new ProductFinder();
+
+        for (int value : input) {
+            final Optional<Integer> product = finder.onNewValue(value);
+            if (product.isPresent()) {
+                return product.get();
+            }
+        }
+        throw new AOCException("Cannot find 2 numbers that sum to 2020");
     }
 
-    @Override
-    public @NonNull Long solve(@NonNull IntStream input) {
-        final var seen = new boolean[2021];
-        Arrays.fill(seen, false);
-        return input.mapToLong(i -> {
-            if (i < 0 || i >= 2020 || seen[i]) {
-                return -1;
+    private static class ProductFinder {
+
+        private final boolean[] seen = new boolean[2021];
+
+        public @NonNull Optional<Integer> onNewValue(int value) {
+            if (value<0 || value>2020) {
+                return Optional.empty();
             }
-            final int complement = 2020-i;
+
+            final int complement = 2020-value;
             if (seen[complement]) {
-                return complement*i;
+                return Optional.of(complement * value);
             }
-            seen[i] = true;
-            return -1;
-        }).filter(p -> p >= 0).findFirst().orElse(-1L);
+
+            seen[value] = true;
+            return Optional.empty();
+        }
     }
 }
