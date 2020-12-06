@@ -8,6 +8,7 @@ module perococco.aoc.day2 {
     requires perococco.aoc.input;
 
     exports perococco.aoc.day2;
+    exports perococco.aoc.day2.structures to perococco.aoc.input;
 
     provides AOCProblem with Day2Part1Solver, Day2Part2Solver;
 }

@@ -4,9 +4,7 @@ import com.google.common.collect.*;
 import lombok.NonNull;
 
 import java.lang.reflect.Array;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collector;
 
@@ -116,7 +114,6 @@ public class Tools {
         return ImmutableMap.copyOf(map);
     }
 
-
     @NonNull
     public static ImmutableList<String> convertToAscii(@NonNull String str) {
         return str.chars().mapToObj(Long::toString).collect(ImmutableList.toImmutableList());
@@ -124,5 +121,16 @@ public class Tools {
 
     public static int mod(int value, int base) {
         return (value%base)+(value<0?base:0);
+    }
+
+
+    public static <E extends Enum<E>> @NonNull Collector<E,?,EnumSet<E>> enumSetCollector(@NonNull Class<E> enumType) {
+        return Collector.of(
+                () -> EnumSet.noneOf(enumType),
+                AbstractCollection::add,
+                (e1,e2) -> {e1.addAll(e2);return e1;},
+                Collector.Characteristics.IDENTITY_FINISH,
+                Collector.Characteristics.UNORDERED
+        );
     }
 }

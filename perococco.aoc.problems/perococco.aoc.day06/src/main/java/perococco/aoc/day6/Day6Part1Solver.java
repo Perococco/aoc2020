@@ -1,25 +1,20 @@
 package perococco.aoc.day6;
 
+import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import perococco.aoc.api.AOCProblem;
-import perococco.aoc.input.Converter;
-import perococco.aoc.input.SmartSolver;
+import perococco.aoc.day6.structures.Group;
 
-import java.util.stream.Stream;
-
-public class Day6Part1Solver extends SmartSolver<Stream<String>,Object> {
+public class Day6Part1Solver extends Day6Solver {
 
     public static @NonNull AOCProblem<?> provider() {
-        return new Day6Part1Solver().createProblem().skipped();
+        return new Day6Part1Solver().createProblem();
     }
 
     @Override
-    protected @NonNull Converter<Stream<String>> getConverter() {
-        return s -> s;
-    }
-
-    @Override
-    public @NonNull Object solve(@NonNull Stream<String> input) {
-        throw new RuntimeException("NOT IMPLEMENTED");
+    public @NonNull Integer solve(@NonNull ImmutableList<Group> input) {
+        return input.stream()
+             .mapToInt(Group::getNumberOfDistinctQuestions)
+             .sum();
     }
 }

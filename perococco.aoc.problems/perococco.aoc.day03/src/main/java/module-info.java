@@ -10,6 +10,7 @@ module perococco.aoc.day3 {
     requires com.google.common;
 
     exports perococco.aoc.day3;
+    exports perococco.aoc.day3.structures to perococco.aoc.input;
 
     provides AOCProblem with Day3Part1Solver, Day3Part2Solver;
 }
