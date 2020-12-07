@@ -10,6 +10,7 @@ import perococco.aoc.api.Solver;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 public abstract class SmartSolver<I,S> implements Solver<I,S> {
@@ -47,5 +48,20 @@ public abstract class SmartSolver<I,S> implements Solver<I,S> {
     public @NonNull AOCProblem<S> createProblem(@NonNull ImmutableList<String> lines) {
         return AOCProblemUsingSolver.create(day,part,this,new ListOfLines(lines),this.getConverter());
     }
+
+    /**
+     * @return an {@link AOCProblem} using this solver and the provided multi lines as input
+     */
+    public @NonNull AOCProblem<S> createProblem(@NonNull String multiLines) {
+        return AOCProblemUsingSolver.create(day,part,this,new MultiLines(multiLines),this.getConverter());
+    }
+
+    /**
+     * @return an {@link AOCProblem} using this solver and the provided multi lines as input
+     */
+    public @NonNull AOCProblem<S> createProblem(@NonNull Input<Stream<String>> input) {
+        return AOCProblemUsingSolver.create(day,part,this,input,this.getConverter());
+    }
+
 
 }
