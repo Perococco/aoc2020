@@ -1,27 +1,27 @@
 package perococco.aoc.day6;
 
-import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class TestDay6 {
 
-    private static final ImmutableList<String> TEST_INPUT_DAY1 = ImmutableList.of(
-            "abc",
-            "",
-            "a",
-            "b",
-            "c",
-            "",
-            "ab",
-            "ac",
-            "",
-            "a",
-            "a",
-            "a",
-            "a",
-            "",
-            "b");
+    private static final String TEST_INPUT_DAY1 = """
+            abc
+                        
+            a
+            b
+            c
+                        
+            ab
+            ac
+                        
+            a
+            a
+            a
+            a
+                        
+            b
+            """;
 
     @Test
     public void testPart1() {

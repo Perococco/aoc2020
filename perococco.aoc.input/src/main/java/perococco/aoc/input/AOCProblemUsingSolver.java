@@ -17,12 +17,12 @@ public class AOCProblemUsingSolver<I, S> implements AOCProblem<S> {
 
 
     public static <I, S> @NonNull AOCProblem<S> create(
-            @NonNull Day day,
-            @NonNull Part part,
-            @NonNull Solver<I,S> solver,
+            @NonNull Solver<I, S> solver,
             @NonNull Input<Stream<String>> input,
             @NonNull Converter<? extends I> converter
     ) {
+        final var day = solver.day();
+        final var part = solver.part();
         return new AOCProblemUsingSolver<>(
                 day.createIdWith(part),
                 input.map(converter),
@@ -31,29 +31,10 @@ public class AOCProblemUsingSolver<I, S> implements AOCProblem<S> {
     }
 
     public static <I, S> @NonNull AOCProblem<S> create(
-            @NonNull Day day,
-            @NonNull Part part,
-            @NonNull Solver<I,S> solver,
+            @NonNull Solver<I, S> solver,
             @NonNull Converter<? extends I> converter
     ) {
-        return create(day,part,solver,new ResourceFile(day),converter);
-    }
-
-    public static <S> @NonNull AOCProblem<S> lineByLine(
-            @NonNull Day day,
-            @NonNull Part part,
-            @NonNull Solver<Stream<String>,S> solver
-    ) {
-        return create(day,part,solver,i -> i);
-    }
-
-    public static <I, S> @NonNull AOCProblem<S> lineByLine(
-            @NonNull Day day,
-            @NonNull Part part,
-            @NonNull Solver<Stream<I>,S> solver,
-            @NonNull Function<? super String, ? extends I> lineConverter
-    ) {
-        return create(day,part,solver,i -> i.map(lineConverter));
+        return create(solver, new ResourceFile(solver.day()), converter);
     }
 
     @NonNull
@@ -63,11 +44,6 @@ public class AOCProblemUsingSolver<I, S> implements AOCProblem<S> {
     private final Input<I> input;
 
     private final Solver<I, S> solver;
-
-    @NonNull
-    public Part part() {
-        return id.part();
-    }
 
     @Override
     public @NonNull S solve() {

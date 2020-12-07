@@ -10,6 +10,9 @@ import java.util.stream.Collector;
 
 public class Tools {
 
+    public static <T> T TODO() {
+        throw new AOCException("TO IMPLEMENT");
+    }
 
     public static int sumUpTo(int value) {
         return value*(value+1)/2;
