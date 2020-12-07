@@ -1,15 +1,15 @@
 package perococco.aoc.day7;
 
 import lombok.NonNull;
+import perococco.aoc.day7.structures.BagGraph;
+import perococco.aoc.day7.structures.BagGraphBuilder;
 import perococco.aoc.input.Converter;
 import perococco.aoc.input.SmartSolver;
 
-import java.util.stream.Stream;
-
-public abstract class Day7Solver<O> extends SmartSolver<Stream<String>,O> {
+public abstract class Day7Solver extends SmartSolver<BagGraph,Long> {
 
     @Override
-    protected @NonNull Converter<Stream<String>> getConverter() {
-        return s -> s;
+    protected @NonNull Converter<BagGraph> getConverter() {
+        return Converter.ALL_LINES.andThen(BagGraphBuilder::build);
     }
 }

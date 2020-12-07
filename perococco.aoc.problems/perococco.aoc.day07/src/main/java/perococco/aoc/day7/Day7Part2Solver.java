@@ -2,23 +2,19 @@ package perococco.aoc.day7;
 
 import lombok.NonNull;
 import perococco.aoc.api.AOCProblem;
-import perococco.aoc.common.Tools;
-import perococco.aoc.input.Converter;
-import perococco.aoc.input.SmartSolver;
-
-import java.util.stream.Stream;
+import perococco.aoc.day7.structures.BagGraph;
 
 import static perococco.aoc.common.Tools.TODO;
 
-public class Day7Part2Solver extends Day7Solver<String> {
+public class Day7Part2Solver extends Day7Solver {
 
     @Override
-    public @NonNull String solve(@NonNull Stream<String> input) {
-        return TODO();
+    public @NonNull Long solve(@NonNull BagGraph bagGraph) {
+        return bagGraph.countContained("shiny gold");
     }
 
     public static @NonNull AOCProblem<?> provider() {
-        return new Day7Part2Solver().createProblem().skipped();
+        return new Day7Part2Solver().createProblem();
     }
 
 }

@@ -24,8 +24,12 @@ public class Tools {
     }
 
     @NonNull
-    public static <K,V>Collector<V,?,ImmutableMap<K,V>> toImmutableMap(@NonNull Function<? super V, ? extends K> keyGetter) {
+    public static <K,V> Collector<V,?,ImmutableMap<K,V>> toImmutableMap(@NonNull Function<? super V, ? extends K> keyGetter) {
         return ImmutableMap.toImmutableMap(keyGetter,v->v);
+    }
+
+    public static <K,V> @NonNull Collector<Pair<K,V>,?,ImmutableMap<K,V>> pairsToImmutableMap() {
+        return ImmutableMap.toImmutableMap(Pair::first, Pair::second);
     }
 
     @NonNull
