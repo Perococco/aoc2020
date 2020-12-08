@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import perococco.aoc.api.AOCProblem;
 import perococco.aoc.common.AOCException;
+import perococco.aoc.common.Tools;
 import perococco.aoc.day8.structures.*;
 
 import java.util.Optional;
@@ -43,14 +44,7 @@ public class Day8Part2Solver extends Day8Solver {
     private @NonNull Program alterCode(
             @NonNull ImmutableList<Instruction> originalCode,
             int alterationIndex) {
-        final var codeBuilder = ImmutableList.<Instruction>builder();
-        if (alterationIndex > 0) {
-            codeBuilder.addAll(originalCode.subList(0, alterationIndex));
-        }
-        codeBuilder.add(originalCode.get(alterationIndex).accept(instructionMutator));
-        if (alterationIndex < originalCode.size() - 1) {
-            codeBuilder.addAll(originalCode.subList(alterationIndex + 1, originalCode.size()));
-        }
-        return new Program(codeBuilder.build());
+        final var alteredCode = Tools.replaceAt(originalCode,alterationIndex,instructionMutator.asFunction());
+        return new Program(alteredCode);
     }
 }

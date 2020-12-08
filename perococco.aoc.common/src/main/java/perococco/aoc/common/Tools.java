@@ -2,6 +2,7 @@ package perococco.aoc.common;
 
 import com.google.common.collect.*;
 import lombok.NonNull;
+import lombok.experimental.ExtensionMethod;
 
 import java.lang.reflect.Array;
 import java.util.*;
@@ -22,6 +23,24 @@ public class Tools {
     public static <E> E[] createArray(@NonNull Class<E> elementType, int size) {
         return (E[]) Array.newInstance(elementType,size);
     }
+
+    public static <T> @NonNull ImmutableList<T> replaceAt(@NonNull ImmutableList<T> source, int index, @NonNull Function<? super T, ? extends T> transformer) {
+        final var codeBuilder = ImmutableList.<T>builder();
+
+        if (index > 0) {
+            codeBuilder.addAll(source.subList(0, index));
+        }
+
+        final var newValue = transformer.apply(source.get(index));
+        codeBuilder.add(newValue);
+
+        if (index < source.size() - 1) {
+            codeBuilder.addAll(source.subList(index + 1, source.size()));
+        }
+
+        return codeBuilder.build();
+    }
+
 
     @NonNull
     public static <K,V> Collector<V,?,ImmutableMap<K,V>> toImmutableMap(@NonNull Function<? super V, ? extends K> keyGetter) {
