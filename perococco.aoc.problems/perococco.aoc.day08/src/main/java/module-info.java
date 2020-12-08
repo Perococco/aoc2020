@@ -7,6 +7,8 @@ module perococco.aoc.day8 {
 
     requires perococco.aoc.input;
 
+    requires com.google.common;
+
     exports perococco.aoc.day8;
 
     provides AOCProblem with Day8Part1Solver, Day8Part2Solver;

@@ -2,24 +2,20 @@ package perococco.aoc.day8;
 
 import lombok.NonNull;
 import perococco.aoc.api.AOCProblem;
-import perococco.aoc.input.Converter;
-import perococco.aoc.input.SmartSolver;
+import perococco.aoc.day8.structures.Processor;
+import perococco.aoc.day8.structures.Program;
 
-import java.util.stream.Stream;
-
-public class Day8Part1Solver extends SmartSolver<Stream<String>,Object> {
+public class Day8Part1Solver extends Day8Solver {
 
     public static @NonNull AOCProblem<?> provider() {
-        return new Day8Part1Solver().createProblem().skipped();
+        return new Day8Part1Solver().createProblem();
     }
 
     @Override
-    protected @NonNull Converter<Stream<String>> getConverter() {
-        return s -> s;
-    }
-
-    @Override
-    public @NonNull Object solve(@NonNull Stream<String> input) {
-        throw new RuntimeException("NOT IMPLEMENTED");
+    public @NonNull Integer solve(@NonNull Program program) {
+        return Processor.with(new Part1StopCondition())
+                        .launch(program)
+                        .getResultOrThrow()
+                        .accumulator();
     }
 }

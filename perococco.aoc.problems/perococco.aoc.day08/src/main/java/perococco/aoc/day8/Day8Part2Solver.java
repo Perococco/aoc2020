@@ -1,25 +1,56 @@
 package perococco.aoc.day8;
 
+import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import perococco.aoc.api.AOCProblem;
-import perococco.aoc.input.Converter;
-import perococco.aoc.input.SmartSolver;
+import perococco.aoc.common.AOCException;
+import perococco.aoc.day8.structures.*;
 
+import java.util.Optional;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class Day8Part2Solver extends SmartSolver<Stream<String>,Object> {
+public class Day8Part2Solver extends Day8Solver {
 
     public static @NonNull AOCProblem<?> provider() {
-        return new Day8Part2Solver().createProblem().skipped();
+        return new Day8Part2Solver().createProblem();
     }
 
-    @Override
-    protected @NonNull Converter<Stream<String>> getConverter() {
-        return s -> s;
-    }
+    private static final Part2Mutator instructionMutator = new Part2Mutator();
 
     @Override
-    public @NonNull Object solve(@NonNull Stream<String> input) {
-        throw new RuntimeException("NOT IMPLEMENTED");
+    public @NonNull Integer solve(@NonNull Program program) {
+        return streamProgramCandidates(program.code())
+                .map(this::execute)
+                .flatMap(Optional::stream)
+                .findFirst()
+                .orElseThrow(() -> new AOCException("You are too stupid to solve this"))
+                .accumulator();
+    }
+
+    private @NonNull Optional<ExecutionContext> execute(Program program) {
+        return Processor.with(Part2StopCondition.createFor(program))
+                        .launch(program)
+                        .getResult();
+    }
+
+    private @NonNull Stream<Program> streamProgramCandidates(@NonNull ImmutableList<Instruction> originalCode) {
+        return IntStream.range(0, originalCode.size())
+                        .filter(i -> originalCode.get(i).getOperation() != Operation.ACC)
+                        .mapToObj(i -> alterCode(originalCode, i));
+    }
+
+    private @NonNull Program alterCode(
+            @NonNull ImmutableList<Instruction> originalCode,
+            int alterationIndex) {
+        final var codeBuilder = ImmutableList.<Instruction>builder();
+        if (alterationIndex > 0) {
+            codeBuilder.addAll(originalCode.subList(0, alterationIndex));
+        }
+        codeBuilder.add(originalCode.get(alterationIndex).accept(instructionMutator));
+        if (alterationIndex < originalCode.size() - 1) {
+            codeBuilder.addAll(originalCode.subList(alterationIndex + 1, originalCode.size()));
+        }
+        return new Program(codeBuilder.build());
     }
 }
