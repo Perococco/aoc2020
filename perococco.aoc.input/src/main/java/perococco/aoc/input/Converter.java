@@ -53,6 +53,8 @@ public interface Converter<I> extends Function<Stream<String>,I> {
      * collect all lines into a list
      */
     Converter<ImmutableList<String>> ALL_LINES = s -> s.collect(ImmutableList.toImmutableList());
+
+    Converter<long[]> TO_ARRAY_OF_LONG = s -> s.mapToLong(Long::parseLong).toArray();
     /**
      * transform the input stream into an array of char (using '.' to fill the spaces)
      */

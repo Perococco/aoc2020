@@ -1,25 +1,70 @@
 package perococco.aoc.day9;
 
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import perococco.aoc.api.AOCProblem;
-import perococco.aoc.input.Converter;
-import perococco.aoc.input.SmartSolver;
 
-import java.util.stream.Stream;
+import java.util.stream.IntStream;
 
-public class Day9Part2Solver extends SmartSolver<Stream<String>,Object> {
+@RequiredArgsConstructor
+public class Day9Part2Solver extends Day9Solver {
 
     public static @NonNull AOCProblem<?> provider() {
-        return new Day9Part2Solver().createProblem().skipped();
+        return new Day9Part2Solver(25).createProblem();
     }
 
-    @Override
-    protected @NonNull Converter<Stream<String>> getConverter() {
-        return s -> s;
-    }
+    private final int preambleSize;
 
     @Override
-    public @NonNull Object solve(@NonNull Stream<String> input) {
-        throw new RuntimeException("NOT IMPLEMENTED");
+    public Long solve(long[] input) {
+        final long target = new Day9Part1Solver(preambleSize).solve(input);
+        return new Context(input,target).findMinMaxSum();
+    }
+
+    private static class Context {
+
+        private final long[] input;
+
+        private final long target;
+
+        private int idxInf;
+
+        private int idxSup;
+
+        private long sum;
+
+        public Context(long[] input, long target) {
+            this.input = input;
+            this.target = target;
+            this.idxInf = 0;
+            this.idxSup = 1;
+            this.sum = input[idxInf]+input[idxSup];
+        }
+
+        public long findMinMaxSum() {
+            while(performOneStep());
+            final var statistic =  IntStream.rangeClosed(idxInf,idxSup).mapToLong(i -> input[i]).summaryStatistics();
+            return statistic.getMin()+statistic.getMax();
+        }
+
+        /**
+         * @return true if the search should continue
+         */
+        private boolean performOneStep() {
+            if (sum == target) {
+                return false;
+            }
+            else if (sum<target) {
+                idxSup++;
+                sum+=input[idxSup];
+            }
+            else {
+                sum-=input[idxInf];
+                idxInf++;
+            }
+            return true;
+        }
+
+
     }
 }
