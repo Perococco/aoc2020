@@ -75,4 +75,12 @@ public class Day10Test {
         final long actual = new Day10Part2Solver().createProblem(TEST_INPUT_2).solve();
         Assertions.assertEquals(19208,actual);
     }
+
+    @Test
+    public void testPart2_Input3() {
+        final long actual = new Day10Part2Solver().createProblem().solve();
+        Assertions.assertEquals(37024595836928L,actual);
+    }
+
+
 }
