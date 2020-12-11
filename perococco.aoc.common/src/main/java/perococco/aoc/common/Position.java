@@ -27,6 +27,10 @@ public class Position {
         return of(nx,ny);
     }
 
+    public int linearIndex(int lineStride) {
+        return x+y*lineStride;
+    }
+
     @Override
     public String toString() {
         return "(x=" + x + ", y=" + y + ")";
