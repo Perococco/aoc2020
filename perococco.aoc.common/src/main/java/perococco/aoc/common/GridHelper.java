@@ -16,5 +16,7 @@ public interface GridHelper {
 
     int linearIndexFor(@NonNull Position position);
 
+    @NonNull Position positionFor(int linearIndex);
+
     @NonNull Stream<Position> positionsInDirection(@NonNull Position center, @NonNull Displacement displacement);
 }

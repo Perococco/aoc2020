@@ -28,7 +28,11 @@ public abstract class BaseArray {
     private final int height;
 
     public boolean isPositionInRange(@NonNull Position position) {
-        return position.x() >= 0 && position.y() >= 0 && position.x() < width && position.y() < height;
+        return isInRange(position.x(),  position.y());
+    }
+
+    public boolean isInRange(int x, int y) {
+        return x >= 0 && y >= 0 && x < width && y < height;
     }
 
     public int xyToIndex(int x, int y) {

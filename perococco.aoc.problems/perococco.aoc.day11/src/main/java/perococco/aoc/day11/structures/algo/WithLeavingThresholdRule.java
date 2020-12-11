@@ -1,7 +1,9 @@
-package perococco.aoc.day11.structures;
+package perococco.aoc.day11.structures.algo;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import perococco.aoc.day11.structures.State;
+import perococco.aoc.day11.structures.StateEvolutionRule;
 
 @RequiredArgsConstructor
 public class WithLeavingThresholdRule implements StateEvolutionRule {

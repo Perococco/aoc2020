@@ -69,4 +69,9 @@ public class SimpleGridHelper implements GridHelper {
     public int linearIndexFor(@NonNull Position position) {
         return position.linearIndex(width);
     }
+
+    @Override
+    public @NonNull Position positionFor(int linearIndex) {
+        return at(linearIndex%width , linearIndex/width);
+    }
 }

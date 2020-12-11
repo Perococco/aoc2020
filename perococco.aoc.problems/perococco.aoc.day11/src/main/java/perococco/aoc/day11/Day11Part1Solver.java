@@ -4,6 +4,8 @@ import lombok.NonNull;
 import perococco.aoc.api.AOCProblem;
 import perococco.aoc.common.GridHelper;
 import perococco.aoc.day11.structures.*;
+import perococco.aoc.day11.structures.algo.AroundAdjacentCounter;
+import perococco.aoc.day11.structures.algo.WithLeavingThresholdRule;
 
 public class Day11Part1Solver extends Day11Solver {
 

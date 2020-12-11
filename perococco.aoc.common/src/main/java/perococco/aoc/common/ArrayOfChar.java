@@ -32,6 +32,13 @@ public class ArrayOfChar extends BaseArray {
         return filling;
     }
 
+    public char get(int x, int y) {
+        if (isInRange(x,y)) {
+            return data[xyToIndex(x,y)];
+        }
+        return filling;
+    }
+
     @Override
     protected void printSingleElement(@NonNull PrintStream printStream, int elementIndex) {
         printStream.print(data[elementIndex]);

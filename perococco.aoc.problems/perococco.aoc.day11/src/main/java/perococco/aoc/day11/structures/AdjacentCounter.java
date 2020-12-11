@@ -1,9 +1,18 @@
 package perococco.aoc.day11.structures;
 
 import lombok.NonNull;
-import perococco.aoc.common.Position;
 
 public interface AdjacentCounter {
 
-    long countOccupied(@NonNull ReadOnlySeatLayout seatLayout, @NonNull Position center);
+    default long[] createBuffer(@NonNull SeatLayout seatLayout) {
+        return new long[seatLayout.width()*seatLayout.height()];
+    }
+
+    default long[] updateOccupationMap(@NonNull SeatLayout seatLayout) {
+        final long[] buffer = createBuffer(seatLayout);
+        updateOccupationMap(seatLayout, new long[seatLayout.height() * seatLayout.width()]);
+        return buffer;
+    }
+
+    void updateOccupationMap(@NonNull SeatLayout seatLayout, long[] buffer);
 }
