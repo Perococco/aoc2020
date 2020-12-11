@@ -6,6 +6,7 @@ import perococco.aoc.common.Displacement;
 import perococco.aoc.common.GridHelper;
 import perococco.aoc.common.Position;
 
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 @RequiredArgsConstructor
@@ -15,6 +16,7 @@ public class ViewableCounter implements AdjacentCounter {
 
     @Override
     public long countOccupied(@NonNull ReadOnlySeatLayout seatLayout, @NonNull Position center) {
+        final Predicate<Displacement> seatOccupiedInDirection = d -> isOccupied(seatLayout, center, d);
         return Stream.of(Displacement.N,
                          Displacement.E,
                          Displacement.S,
@@ -23,8 +25,8 @@ public class ViewableCounter implements AdjacentCounter {
                          Displacement.NW,
                          Displacement.SE,
                          Displacement.SW)
-              .filter(displacement -> isOccupied(seatLayout,center,displacement))
-              .count();
+                     .filter(seatOccupiedInDirection)
+                     .count();
     }
 
     private boolean isOccupied(@NonNull ReadOnlySeatLayout seatLayout, @NonNull Position center, @NonNull Displacement displacement) {
