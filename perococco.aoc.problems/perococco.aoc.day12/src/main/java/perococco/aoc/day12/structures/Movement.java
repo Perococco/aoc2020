@@ -1,0 +1,17 @@
+package perococco.aoc.day12.structures;
+
+import lombok.*;
+
+@Value
+public class Movement {
+
+    @NonNull Operation operation;
+    int quantity;
+
+    public static @NonNull Movement parse(@NonNull String line) {
+        final Operation operation = Operation.parse(line.substring(0,1));
+        final int quantity = Integer.parseInt(line.substring(1));
+        return new Movement(operation,quantity);
+    }
+
+}

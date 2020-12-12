@@ -1,25 +1,25 @@
 package perococco.aoc.day12;
 
+import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import perococco.aoc.api.AOCProblem;
-import perococco.aoc.input.Converter;
-import perococco.aoc.input.SmartSolver;
+import perococco.aoc.common.Orientation;
+import perococco.aoc.day12.structures.*;
 
-import java.util.stream.Stream;
-
-public class Day12Part2Solver extends SmartSolver<Stream<String>,Object> {
+public class Day12Part2Solver extends Day12Solver {
 
     public static @NonNull AOCProblem<?> provider() {
-        return new Day12Part2Solver().createProblem().skipped();
+        return new Day12Part2Solver().createProblem();
     }
 
     @Override
-    protected @NonNull Converter<Stream<String>> getConverter() {
-        return s -> s;
-    }
+    public @NonNull Integer solve(@NonNull ImmutableList<Movement> movements) {
+        final Ferry ferry = new Ferry(Orientation.E, 0, 0);
+        final Waypoint waypoint = new Waypoint(10, 1);
 
-    @Override
-    public @NonNull Object solve(@NonNull Stream<String> input) {
-        throw new RuntimeException("NOT IMPLEMENTED");
+        final Executor executor = new Part2Executor(ferry, waypoint);
+        movements.forEach(executor::execute);
+
+        return ferry.manhattanDistance();
     }
 }
