@@ -54,6 +54,7 @@ public class Day13Part2Solver extends Day13Solver {
         final var id = bus.id();
         final var remaining = index == 0 ? 0 : id.intValue() - index;
         final var productOfOthers = productOfAllIds.divide(id);
+        //Fermat's little theorem says that : productOfOthers^(id-1) = 1 [id] (we assume all ids are prime)
         return productOfOthers.pow(id.intValue() - 1).multiply(BigInteger.valueOf(remaining));
     }
 
