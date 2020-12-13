@@ -2,24 +2,20 @@ package perococco.aoc.day13;
 
 import lombok.NonNull;
 import perococco.aoc.api.AOCProblem;
-import perococco.aoc.input.Converter;
-import perococco.aoc.input.SmartSolver;
+import perococco.aoc.common.Tools;
 
-import java.util.stream.Stream;
+import java.math.BigInteger;
 
-public class Day13Part1Solver extends SmartSolver<Stream<String>,Object> {
+public class Day13Part1Solver extends Day13Solver {
 
     public static @NonNull AOCProblem<?> provider() {
-        return new Day13Part1Solver().createProblem().skipped();
+        return new Day13Part1Solver().createProblem();
     }
 
     @Override
-    protected @NonNull Converter<Stream<String>> getConverter() {
-        return s -> s;
-    }
+    public @NonNull BigInteger solve(@NonNull Notes input) {
+        final NextStop nextStop = input.findNextStop();
 
-    @Override
-    public @NonNull Object solve(@NonNull Stream<String> input) {
-        throw new RuntimeException("NOT IMPLEMENTED");
+        return nextStop.busId().multiply(nextStop.waitingTime());
     }
 }
