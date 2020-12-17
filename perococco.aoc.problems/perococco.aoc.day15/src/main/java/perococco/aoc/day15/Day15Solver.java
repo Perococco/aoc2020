@@ -9,60 +9,37 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class Day15Solver extends SmartSolver<long[],Long> {
+public abstract class Day15Solver extends SmartSolver<int[],Integer> {
 
     @Override
-    protected @NonNull Converter<long[]> getConverter() {
+    protected @NonNull Converter<int[]> getConverter() {
         return Converter.FIRST_LINE.andThen(this::toArrayOfNumbers);
     }
 
-    private long[] toArrayOfNumbers(@NonNull String line) {
+    private int[] toArrayOfNumbers(@NonNull String line) {
         return Arrays.stream(line.split(","))
-                     .mapToLong(Long::parseLong)
+                     .mapToInt(Integer::parseInt)
                      .toArray();
     }
 
     protected abstract int getNumberOfTurns();
 
-    public Long solve(long[] input) {
-        return Execution.getSpokenAtLastTurn(input,getNumberOfTurns());
+    public History createHistory(int size) {
+        return new HistoryWithArray(size);
     }
 
-    @RequiredArgsConstructor
-    private static class Execution {
+    public Integer solve(int[] input) {
+        final var nbTurns = getNumberOfTurns();
+        final var history = createHistory(nbTurns);
 
-        public static long getSpokenAtLastTurn(@NonNull long[] initialNumbers, int numberOfTurns) {
-            return new Execution(initialNumbers,numberOfTurns).getSpokenAtLastTurn();
+        history.initialize(input);
+        int lastSpoken = input[input.length-1];
+        for (int turn = input.length; turn < nbTurns; turn++) {
+            final var nextToSay = history.get(lastSpoken).getNextToSay();
+            history.updateNumberHistory(nextToSay,turn);
+            lastSpoken = nextToSay;
         }
-
-        private final @NonNull long[] initialNumbers;
-
-        private final int numberOfTurns;
-
-        private final Map<Long,NumberHistory> historyMap = new HashMap<>();
-
-        public long getSpokenAtLastTurn() {
-            this.initializeHistoryMap();
-            long lastSpoken = initialNumbers[initialNumbers.length-1];
-            for (int turn = initialNumbers.length; turn < numberOfTurns; turn++) {
-                final var nextToSay = historyMap.get(lastSpoken).getNextToSay();
-                this.updateNumberHistory(nextToSay,turn);
-                lastSpoken = nextToSay;
-            }
-            return lastSpoken;
-        }
-
-        private void initializeHistoryMap() {
-            for (int turn = 0; turn < initialNumbers.length; turn++) {
-                historyMap.put(initialNumbers[turn],new NumberHistory(initialNumbers[turn],turn));
-            }
-        }
-
-
-        private void updateNumberHistory(final long number, final int turn) {
-            historyMap.computeIfAbsent(number,l -> new NumberHistory(number,turn)).setLastSpokenTurn(turn);
-        }
-
-
+        return lastSpoken;
     }
+
 }
