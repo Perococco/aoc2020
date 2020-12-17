@@ -4,8 +4,11 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 import perococco.aoc.common.AOCException;
+import perococco.aoc.common.Tools;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class FieldsMatcher {
 
@@ -13,7 +16,7 @@ public class FieldsMatcher {
 
     private final @NonNull Mask mask;
 
-    private final @NonNull List<Set<Field>> matchByPositions;
+    private final @NonNull Map<Field, Set<Integer>> matchingPositions;
 
     private final int numberOfFields;
 
@@ -21,61 +24,86 @@ public class FieldsMatcher {
         this.mask = Mask.create(allFields);
         this.fields = allFields;
         this.numberOfFields = allFields.size();
-        this.matchByPositions = new ArrayList<>(numberOfFields);
-        for (int i = 0; i < numberOfFields; i++) {
-            this.matchByPositions.add(new HashSet<>(allFields));
-        }
+        this.matchingPositions = allFields.stream()
+                                          .collect(Collectors.toMap(f -> f, f -> allPositions(numberOfFields)));
+    }
+
+    private static Set<Integer> allPositions(int numberOfFields) {
+        return IntStream.range(0, numberOfFields).boxed().collect(Collectors.toSet());
     }
 
     public void testTicket(@NonNull Ticket ticket) {
         if (!mask.isValid(ticket)) {
             return;
         }
-        for (Field field : fields) {
-            for (int i = 0; i < numberOfFields; i++) {
-                final var value = ticket.getValueAt(i);
-                final var matchingFields = matchByPositions.get(i);
+        for (int position = 0; position < numberOfFields; position++) {
+            final var value = ticket.getValueAt(position);
+            for (Field field : fields) {
+                final var matchingPosition = matchingPositions.get(field);
                 if (!field.isValid(value)) {
-                    matchingFields.remove(field);
+                    matchingPosition.remove(position);
                 }
-                if (matchingFields.isEmpty()) {
-                    throw new AOCException("No field associated with position "+i+" for value "+value);
+                if (matchingPosition.isEmpty()) {
+                    throw new AOCException("No field associated with position " + position + " for value " + value);
                 }
             }
+
         }
     }
 
-
-    public @NonNull Optional<ImmutableMap<Field,Integer>> getSolution() {
-        final var builder = ImmutableMap.<Field,Integer>builder();
-        for (int i = 0; i < numberOfFields; i++) {
-            final var matchingFields = matchByPositions.get(i);
-            if (matchingFields.size() != 1) {
+    public @NonNull Optional<ImmutableMap<Field, Integer>> getSolution() {
+        final var builder = ImmutableMap.<Field, Integer>builder();
+        for (Field field : matchingPositions.keySet()) {
+            final var matchingPosition = matchingPositions.get(field);
+            if (matchingPosition.size() != 1) {
                 return Optional.empty();
             }
-            builder.put(matchingFields.iterator().next(),i);
+            builder.put(field, Tools.getOneElement(matchingPosition));
         }
-        return Optional.ofNullable(builder.build());
+        return Optional.of(builder.build());
     }
 
     public void cleanUp() {
-        while (doCleanUp());
+        Set<Field> fieldToCheck = getInitialFieldsToCheck();
+        while (!fieldToCheck.isEmpty()) {
+            fieldToCheck = cleanUp(fieldToCheck);
+        }
     }
 
-    private boolean doCleanUp() {
-        boolean removed = false;
-        for (int i = 0; i < numberOfFields; i++) {
-            final var matchingFields = matchByPositions.get(i);
-            if (matchingFields.size() == 1) {
-                final Field field = matchingFields.iterator().next();
-                for (int j = 0; j < numberOfFields; j++) {
-                    if (j != i) {
-                        removed |= matchByPositions.get(j).remove(field);
-                    }
+    private @NonNull Set<Field> getInitialFieldsToCheck() {
+        return matchingPositions.keySet()
+                                .stream()
+                                .filter(f -> matchingPositions.get(f).size() == 1)
+                                .collect(Collectors.toSet());
+    }
+
+    private Set<Field> cleanUp(@NonNull Set<Field> fieldToCheck) {
+        final Set<Field> changedFields = new HashSet<>();
+        for (Field field : fieldToCheck) {
+            final var matchingPosition = matchingPositions.get(field);
+            if (matchingPosition.size() > 1) {
+                continue;
+            }
+            final int resolvedPosition = Tools.getOneElement(matchingPosition);
+            removeOnePosition(field, resolvedPosition, changedFields);
+        }
+        return changedFields;
+    }
+
+    private void removeOnePosition(@NonNull Field fieldToSkip, int positionToRemove, @NonNull Set<Field> changedFields) {
+        for (var fieldSetEntry : matchingPositions.entrySet()) {
+            final var field = fieldSetEntry.getKey();
+            final var positions = fieldSetEntry.getValue();
+            if (field.equals(fieldToSkip)) {
+                continue;
+            }
+            if (positions.remove(positionToRemove)) {
+                if (positions.size() == 1) {
+                    changedFields.add(field);
                 }
             }
         }
-        return removed;
     }
+
 
 }

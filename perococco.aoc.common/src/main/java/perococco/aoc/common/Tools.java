@@ -19,6 +19,11 @@ public class Tools {
         return value*(value+1)/2;
     }
 
+
+    public static <E> @NonNull E getOneElement(@NonNull Collection<E> collection) {
+        return collection.iterator().next();
+    }
+
     @SuppressWarnings("unchecked")
     public static <E> E[] createArray(@NonNull Class<E> elementType, int size) {
         return (E[]) Array.newInstance(elementType,size);
