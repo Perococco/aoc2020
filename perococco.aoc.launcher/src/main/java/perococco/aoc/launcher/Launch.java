@@ -1,5 +1,6 @@
 package perococco.aoc.launcher;
 
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perococco.aoc.launcher._private.Launcher;
 
@@ -7,7 +8,21 @@ import perococco.aoc.launcher._private.Launcher;
 public class Launch {
 
     public static void main(String[] args) {
-        Launcher.launch(new Problem(args));
+        final double last = bench(new Problem(args),10,60);
+        System.out.printf("Last : %.3f ms%n",last);
+    }
+
+    public static double bench(@NonNull Problem problem, int warmup, int bench) {
+        for (int i = 0; i < warmup; i++) {
+            Launcher.launch(problem);
+        }
+        final long start = System.nanoTime();
+        for (int i = 0; i < bench; i++) {
+            Launcher.launch(problem);
+        }
+        final long last = System.nanoTime() - start;
+        return last*1e-6/bench;
+
     }
 
 }

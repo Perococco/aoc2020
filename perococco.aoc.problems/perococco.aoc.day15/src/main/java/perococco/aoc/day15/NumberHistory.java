@@ -2,19 +2,19 @@ package perococco.aoc.day15;
 
 public class NumberHistory {
 
-    private final long number;
+    private final int number;
 
     private int lastTurn;
 
     private int oneBeforeLastTurn;
 
-    public NumberHistory(long number, int turn) {
+    public NumberHistory(int number, int turn) {
         this.number = number;
         this.lastTurn = turn;
         this.oneBeforeLastTurn = turn;
     }
 
-    public long getNextToSay() {
+    public int getNextToSay() {
         return lastTurn - oneBeforeLastTurn;
     }
 
