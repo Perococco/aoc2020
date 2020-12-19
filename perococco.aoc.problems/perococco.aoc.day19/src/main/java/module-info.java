@@ -7,7 +7,11 @@ module perococco.aoc.day19 {
 
     requires perococco.aoc.input;
 
+    requires com.google.common;
+
     exports perococco.aoc.day19;
+    exports perococco.aoc.day19.structures to perococco.aoc.input;
 
     provides AOCProblem with Day19Part1Solver, Day19Part2Solver;
+
 }

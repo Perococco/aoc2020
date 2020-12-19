@@ -1,25 +1,22 @@
 package perococco.aoc.day19;
 
+import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 import perococco.aoc.api.AOCProblem;
-import perococco.aoc.input.Converter;
-import perococco.aoc.input.SmartSolver;
+import perococco.aoc.day19.structures.BasicMatcher;
+import perococco.aoc.day19.structures.Day19Input;
+import perococco.aoc.day19.structures.Rule;
 
-import java.util.stream.Stream;
+import java.util.function.Predicate;
 
-public class Day19Part1Solver extends SmartSolver<Stream<String>,Object> {
+public class Day19Part1Solver extends Day19Solver {
 
     public static @NonNull AOCProblem<?> provider() {
-        return new Day19Part1Solver().createProblem().skipped();
+        return new Day19Part1Solver().createProblem();
     }
 
     @Override
-    protected @NonNull Converter<Stream<String>> getConverter() {
-        return s -> s;
-    }
-
-    @Override
-    public @NonNull Object solve(@NonNull Stream<String> input) {
-        throw new RuntimeException("NOT IMPLEMENTED");
+    protected @NonNull Day19Input modifyInput(@NonNull Day19Input input) {
+        return input;
     }
 }
