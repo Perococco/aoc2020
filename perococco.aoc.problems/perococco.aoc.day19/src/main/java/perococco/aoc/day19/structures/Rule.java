@@ -2,9 +2,20 @@ package perococco.aoc.day19.structures;
 
 import lombok.NonNull;
 
+import java.util.function.Function;
+import java.util.function.IntFunction;
+import java.util.stream.Stream;
+
 public interface Rule {
 
-     <I,O> @NonNull O accept(@NonNull RuleVisitor<I,O> visitor, @NonNull I parameter);
+    /**
+     * @param string the string the match
+     * @param ruleProvider a function that returns a rule from its id
+     * @return a stream of indexed stream obtained after matching the provided string
+     * to this rule (this is a stream because the string might matches in several ways)
+     */
+    Stream<IndexedString> matches(@NonNull IndexedString string, @NonNull RuleProvider ruleProvider);
+
 
     static @NonNull Rule parse(@NonNull String line) {
         final int indexOfPipe = line.indexOf('|');

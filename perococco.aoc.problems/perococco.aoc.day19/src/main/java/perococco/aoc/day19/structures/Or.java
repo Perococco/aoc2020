@@ -5,14 +5,11 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
+import java.util.stream.Stream;
+
 @RequiredArgsConstructor
 @ToString
 public class Or implements Rule {
-
-    static @NonNull Or parse(@NonNull String line) {
-        final var tokens = line.trim().split("\\|");
-        return new Or(Concatenation.parse(tokens[0]), Concatenation.parse(tokens[1]));
-    }
 
     @Getter
     private final @NonNull Concatenation first;
@@ -21,12 +18,18 @@ public class Or implements Rule {
     private final @NonNull Concatenation second;
 
     @Override
-    public <I, O> @NonNull O accept(@NonNull RuleVisitor<I, O> visitor, @NonNull I parameter) {
-        return visitor.visit(this, parameter);
+    public Stream<IndexedString> matches(@NonNull IndexedString string, @NonNull RuleProvider ruleProvider) {
+        return Stream.of(first, second)
+                     .flatMap(r -> r.matches(string,ruleProvider));
     }
 
     public static @NonNull Or or(@NonNull Concatenation first, @NonNull Concatenation second) {
         return new Or(first, second);
+    }
+
+    static @NonNull Or parse(@NonNull String line) {
+        final var tokens = line.trim().split("\\|");
+        return new Or(Concatenation.parse(tokens[0]), Concatenation.parse(tokens[1]));
     }
 
 }

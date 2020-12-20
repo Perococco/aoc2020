@@ -5,20 +5,25 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
+import java.util.stream.Stream;
+
 @RequiredArgsConstructor
 @ToString
 public class Literal implements Rule {
-
-    static @NonNull Literal parse(@NonNull String line) {
-        return new Literal(line.trim().charAt(1));
-    }
 
     @Getter
     private final char value;
 
     @Override
-    public <I, O> @NonNull O accept(@NonNull RuleVisitor<I, O> visitor, @NonNull I parameter) {
-        return visitor.visit(this, parameter);
+    public Stream<IndexedString> matches(@NonNull IndexedString string, @NonNull RuleProvider ruleProvider) {
+        if (!string.isEmpty() && string.charAt(0) == value) {
+            return Stream.of(string.addToOffset(1));
+        }
+        return Stream.empty();
+    }
+
+    static @NonNull Literal parse(@NonNull String line) {
+        return new Literal(line.trim().charAt(1));
     }
 
 }
