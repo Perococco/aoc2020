@@ -28,7 +28,6 @@ public class IndexedString {
 
     @Override
     public String toString() {
-        return reference.substring(offset);
+        return "IndexedString{" + reference.substring(offset) + "}";
     }
-
 }

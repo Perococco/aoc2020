@@ -8,7 +8,7 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 @RequiredArgsConstructor
-public class BasicMatcher implements Predicate<String> {
+public class Tester implements Predicate<String> {
 
     private final @NonNull ImmutableMap<Integer, Rule> rules;
 
@@ -21,16 +21,19 @@ public class BasicMatcher implements Predicate<String> {
                     .anyMatch(IndexedString::isEmpty);
     }
 
-    private class Visitor implements RuleVisitor {
+    /**
+     * For each rule and one IndexedString, return a stream of potential match
+     */
+    private class Visitor implements RuleVisitor<IndexedString, Stream<IndexedString>> {
 
         @Override
-        public @NonNull Stream<IndexedString> visit(@NonNull IndexedString parameter, @NonNull Or or) {
+        public @NonNull Stream<IndexedString> visit(@NonNull Or or, @NonNull IndexedString parameter) {
             return Stream.of(or.first(), or.second())
                          .flatMap(r -> r.accept(this, parameter));
         }
 
         @Override
-        public @NonNull Stream<IndexedString> visit(@NonNull IndexedString indexedString, @NonNull Concatenation concatenation) {
+        public @NonNull Stream<IndexedString> visit(@NonNull Concatenation concatenation, @NonNull IndexedString indexedString) {
             return concatenation.ruleIds()
                                 .stream()
                                 .sequential()
@@ -41,7 +44,7 @@ public class BasicMatcher implements Predicate<String> {
         }
 
         @Override
-        public @NonNull Stream<IndexedString> visit(@NonNull IndexedString parameter, @NonNull Literal literal) {
+        public @NonNull Stream<IndexedString> visit(@NonNull Literal literal, @NonNull IndexedString parameter) {
             if (!parameter.isEmpty() && parameter.charAt(0) == literal.value()) {
                 return Stream.of(parameter.addToOffset(1));
             }

@@ -2,14 +2,12 @@ package perococco.aoc.day19.structures;
 
 import lombok.NonNull;
 
-import java.util.stream.Stream;
+public interface RuleVisitor<I,O> {
 
-public interface RuleVisitor {
+    @NonNull O visit(@NonNull Or or, @NonNull I parameter);
 
-    @NonNull Stream<IndexedString> visit(@NonNull IndexedString parameter, @NonNull Or or);
+    @NonNull O visit(@NonNull Concatenation concatenation, @NonNull I parameter);
 
-    @NonNull Stream<IndexedString> visit(@NonNull IndexedString parameter, @NonNull Concatenation concatenation);
-
-    @NonNull Stream<IndexedString> visit(@NonNull IndexedString parameter, @NonNull Literal literal);
+    @NonNull O visit(@NonNull Literal literal, @NonNull I parameter);
 
 }

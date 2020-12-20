@@ -1,12 +1,9 @@
 package perococco.aoc.day19.structures;
 
-import com.google.common.collect.ImmutableSet;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-
-import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @ToString
@@ -24,8 +21,8 @@ public class Or implements Rule {
     private final @NonNull Concatenation second;
 
     @Override
-    public @NonNull Stream<IndexedString> accept(@NonNull RuleVisitor visitor, @NonNull IndexedString parameter) {
-        return visitor.visit(parameter, this);
+    public <I, O> @NonNull O accept(@NonNull RuleVisitor<I, O> visitor, @NonNull I parameter) {
+        return visitor.visit(this, parameter);
     }
 
     public static @NonNull Or or(@NonNull Concatenation first, @NonNull Concatenation second) {

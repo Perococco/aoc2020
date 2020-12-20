@@ -1,13 +1,10 @@
 package perococco.aoc.day19.structures;
 
-import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
-
-import java.util.stream.Stream;
 
 public interface Rule {
 
-    @NonNull Stream<IndexedString> accept(@NonNull RuleVisitor visitor, @NonNull IndexedString parameter);
+     <I,O> @NonNull O accept(@NonNull RuleVisitor<I,O> visitor, @NonNull I parameter);
 
     static @NonNull Rule parse(@NonNull String line) {
         final int indexOfPipe = line.indexOf('|');

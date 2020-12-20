@@ -1,7 +1,6 @@
 package perococco.aoc.day19.structures;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +9,6 @@ import perococco.aoc.common.AOCException;
 
 import java.util.Arrays;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @ToString
@@ -30,13 +28,13 @@ public class Concatenation implements Rule {
     @Getter
     private final @NonNull ImmutableList<Integer> ruleIds;
 
-    public static @NonNull Concatenation concatenation(int...ruleIds) {
-        return new Concatenation(IntStream.of(ruleIds).boxed().collect(ImmutableList.toImmutableList()));
+    @Override
+    public <I, O> @NonNull O accept(@NonNull RuleVisitor<I, O> visitor, @NonNull I parameter) {
+        return visitor.visit(this, parameter);
     }
 
-    @Override
-    public @NonNull Stream<IndexedString> accept(@NonNull RuleVisitor visitor, @NonNull IndexedString parameter) {
-        return visitor.visit(parameter,this);
+    public static @NonNull Concatenation concatenation(int...ruleIds) {
+        return new Concatenation(IntStream.of(ruleIds).boxed().collect(ImmutableList.toImmutableList()));
     }
 
 }

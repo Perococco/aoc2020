@@ -2,8 +2,6 @@ package perococco.aoc.day19;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import perococco.aoc.day19.structures.BasicMatcher;
-import perococco.aoc.day19.structures.Day19Input;
 
 public class Day19SolverTest {
 
