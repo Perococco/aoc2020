@@ -9,7 +9,7 @@ public interface Rule {
     /**
      * @param string the string the match
      * @param ruleProvider a function that returns a rule from its id
-     * @return a stream of indexed stream obtained after matching the provided string
+     * @return a stream of indexed string obtained after matching the provided string
      * to this rule (this is a stream because the string might matches in several ways)
      */
     Stream<IndexedString> matches(@NonNull IndexedString string, @NonNull RuleProvider ruleProvider);
