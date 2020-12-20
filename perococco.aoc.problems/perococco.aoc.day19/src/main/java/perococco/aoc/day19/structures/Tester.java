@@ -5,7 +5,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 public class Tester implements Predicate<String> {

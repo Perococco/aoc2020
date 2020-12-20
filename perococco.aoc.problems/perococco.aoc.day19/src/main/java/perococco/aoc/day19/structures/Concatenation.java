@@ -8,8 +8,6 @@ import lombok.ToString;
 import perococco.aoc.common.AOCException;
 
 import java.util.Arrays;
-import java.util.function.Function;
-import java.util.function.IntFunction;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -27,7 +25,6 @@ public class Concatenation implements Rule {
                 .reduce(Stream.of(string),
                         (stream, rule) -> stream.flatMap(m -> rule.matches(m,ruleProvider)),
                         Stream::concat);
-
     }
 
     public static @NonNull Concatenation concatenation(int... ruleIds) {

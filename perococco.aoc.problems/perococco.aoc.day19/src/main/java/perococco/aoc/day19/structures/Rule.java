@@ -2,8 +2,6 @@ package perococco.aoc.day19.structures;
 
 import lombok.NonNull;
 
-import java.util.function.Function;
-import java.util.function.IntFunction;
 import java.util.stream.Stream;
 
 public interface Rule {

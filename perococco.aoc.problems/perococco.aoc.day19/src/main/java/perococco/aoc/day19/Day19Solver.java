@@ -1,8 +1,8 @@
 package perococco.aoc.day19;
 
 import lombok.NonNull;
-import perococco.aoc.day19.structures.Tester;
 import perococco.aoc.day19.structures.Day19Input;
+import perococco.aoc.day19.structures.Tester;
 import perococco.aoc.input.Converter;
 import perococco.aoc.input.SmartSolver;
 
