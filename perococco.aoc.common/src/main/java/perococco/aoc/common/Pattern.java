@@ -3,8 +3,6 @@ package perococco.aoc.common;
 import com.google.common.collect.ImmutableSet;
 import lombok.NonNull;
 
-import java.util.stream.Stream;
-
 public class Pattern {
 
     private final @NonNull ImmutableSet<Displacement> positionsOfSharp;

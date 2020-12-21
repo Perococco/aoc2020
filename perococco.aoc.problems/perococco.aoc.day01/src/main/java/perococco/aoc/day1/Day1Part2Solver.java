@@ -4,7 +4,10 @@ import lombok.NonNull;
 import perococco.aoc.api.AOCProblem;
 import perococco.aoc.common.AOCException;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 public class Day1Part2Solver extends Day1Solver<Long> {
 

@@ -6,9 +6,6 @@ import perococco.aoc.day8.structures.ExecutionContext;
 import perococco.aoc.day8.structures.Program;
 import perococco.aoc.day8.structures.StopCondition;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @RequiredArgsConstructor
 public class Part2StopCondition implements StopCondition {
 

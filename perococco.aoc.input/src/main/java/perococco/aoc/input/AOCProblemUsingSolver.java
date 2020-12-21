@@ -3,9 +3,10 @@ package perococco.aoc.input;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perococco.aoc.api.*;
+import perococco.aoc.api.AOCProblem;
+import perococco.aoc.api.AOCProblemId;
+import perococco.aoc.api.Solver;
 
-import java.util.function.Function;
 import java.util.stream.Stream;
 
 /**

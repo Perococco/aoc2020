@@ -1,13 +1,10 @@
 package perococco.aoc.day15;
 
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import perococco.aoc.input.Converter;
 import perococco.aoc.input.SmartSolver;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public abstract class Day15Solver extends SmartSolver<int[],Integer> {
 

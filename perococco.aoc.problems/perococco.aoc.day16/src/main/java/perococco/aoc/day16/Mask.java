@@ -1,6 +1,5 @@
 package perococco.aoc.day16;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import lombok.AccessLevel;
 import lombok.NonNull;

@@ -3,7 +3,6 @@ package perococco.aoc.day16;
 import lombok.NonNull;
 import perococco.aoc.api.AOCProblem;
 import perococco.aoc.common.AOCException;
-import perococco.aoc.common.Tools;
 
 import java.util.Map;
 

@@ -1,6 +1,7 @@
 package perococco.aoc.common;
 
-import lombok.*;
+import lombok.NonNull;
+import lombok.Value;
 
 import java.util.Map;
 

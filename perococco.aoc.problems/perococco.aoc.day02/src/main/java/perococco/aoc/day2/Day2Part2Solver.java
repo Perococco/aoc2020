@@ -3,8 +3,6 @@ package perococco.aoc.day2;
 import lombok.NonNull;
 import perococco.aoc.api.AOCProblem;
 import perococco.aoc.day2.structures.DatabaseEntry;
-import perococco.aoc.input.Converter;
-import perococco.aoc.input.SmartSolver;
 
 import java.util.function.Function;
 import java.util.stream.Stream;

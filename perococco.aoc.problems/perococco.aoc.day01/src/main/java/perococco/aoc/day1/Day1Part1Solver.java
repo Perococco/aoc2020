@@ -3,14 +3,8 @@ package perococco.aoc.day1;
 import lombok.NonNull;
 import perococco.aoc.api.AOCProblem;
 import perococco.aoc.common.AOCException;
-import perococco.aoc.input.Converter;
-import perococco.aoc.input.SmartSolver;
 
-import java.util.Arrays;
 import java.util.Optional;
-import java.util.OptionalInt;
-import java.util.OptionalLong;
-import java.util.stream.IntStream;
 
 public class Day1Part1Solver extends Day1Solver<Integer> {
 

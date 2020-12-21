@@ -1,6 +1,7 @@
 package perococco.aoc.day12.structures;
 
-import lombok.*;
+import lombok.NonNull;
+import lombok.Value;
 
 @Value
 public class Movement {

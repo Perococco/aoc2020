@@ -6,7 +6,10 @@ import lombok.NonNull;
 import perococco.aoc.common.AOCException;
 import perococco.aoc.common.Tools;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 

@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import perococco.aoc.day18.structures.*;
+import perococco.aoc.day18.structures.ExprEvaluatorTemplate;
+import perococco.aoc.day18.structures.ExpressionEvaluatorPart1;
+import perococco.aoc.day18.structures.ExpressionEvaluatorPart2;
 
 import java.util.stream.Stream;
 

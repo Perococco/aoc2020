@@ -2,15 +2,8 @@ package perococco.aoc.day10;
 
 import lombok.NonNull;
 import perococco.aoc.api.AOCProblem;
-import perococco.aoc.common.Tools;
-import perococco.aoc.input.Converter;
-import perococco.aoc.input.SmartSolver;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.stream.Stream;
-
-import static perococco.aoc.common.Tools.TODO;
 
 public class Day10Part1Solver extends Day10Solver {
 

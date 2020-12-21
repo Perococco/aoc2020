@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import perococco.aoc.common.ArrayOfChar;
 import perococco.aoc.common.GridHelper;
-import perococco.aoc.common.Position;
 
 import java.util.Arrays;
 

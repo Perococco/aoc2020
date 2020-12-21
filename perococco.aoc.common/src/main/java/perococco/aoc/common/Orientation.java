@@ -3,9 +3,6 @@ package perococco.aoc.common;
 import com.google.common.collect.ImmutableMap;
 import lombok.NonNull;
 
-import java.util.Map;
-import java.util.concurrent.ThreadPoolExecutor;
-
 public enum Orientation {
     N,
     E,

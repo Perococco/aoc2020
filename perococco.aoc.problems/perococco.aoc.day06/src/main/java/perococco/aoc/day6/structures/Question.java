@@ -2,8 +2,6 @@ package perococco.aoc.day6.structures;
 
 import lombok.NonNull;
 
-import java.util.Arrays;
-
 public enum Question {
     A,
     B,

@@ -4,10 +4,6 @@ import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import perococco.aoc.api.AOCProblem;
 import perococco.aoc.day6.structures.Group;
-import perococco.aoc.input.Converter;
-import perococco.aoc.input.SmartSolver;
-
-import java.util.stream.Stream;
 
 public class Day6Part2Solver extends Day6Solver {
 

@@ -3,8 +3,6 @@ package perococco.aoc.day1;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.stream.IntStream;
-
 public class TestDay1Part2Solver {
 
     @Test

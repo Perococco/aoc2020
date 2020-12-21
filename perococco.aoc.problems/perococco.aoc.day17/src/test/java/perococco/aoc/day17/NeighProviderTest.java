@@ -1,6 +1,5 @@
 package perococco.aoc.day17;
 
-import com.google.common.collect.Iterators;
 import lombok.NonNull;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;

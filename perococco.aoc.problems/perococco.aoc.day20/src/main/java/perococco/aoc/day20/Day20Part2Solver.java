@@ -1,16 +1,10 @@
 package perococco.aoc.day20;
 
-import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import perococco.aoc.api.AOCProblem;
 import perococco.aoc.common.Pattern;
-import perococco.aoc.common.Position;
 import perococco.aoc.common.Transformation;
-import perococco.aoc.day20.structures.ImageArrayBuilder;
-import perococco.aoc.day20.structures.ImageTile;
-
-import java.util.HashSet;
-import java.util.Set;
+import perococco.aoc.day20.structures.ImageArray;
 
 public class Day20Part2Solver extends Day20Solver {
 
@@ -25,12 +19,9 @@ public class Day20Part2Solver extends Day20Solver {
              """;
 
     @Override
-    public @NonNull Long solve(@NonNull ImmutableList<ImageTile> imageTiles) {
-        final var imageArray = ImageArrayBuilder.build(imageTiles);
-
+    public @NonNull Long solve(@NonNull ImageArray imageArray) {
         final var image = imageArray.buildImage();
         final var monster = new Pattern(MONSTER, '#');
-
 
         final long nbMonsters = Transformation.all()
                                               .map(image::transform)

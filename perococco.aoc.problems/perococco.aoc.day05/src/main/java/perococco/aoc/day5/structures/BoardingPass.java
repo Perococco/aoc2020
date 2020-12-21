@@ -1,6 +1,5 @@
 package perococco.aoc.day5.structures;
 
-import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;

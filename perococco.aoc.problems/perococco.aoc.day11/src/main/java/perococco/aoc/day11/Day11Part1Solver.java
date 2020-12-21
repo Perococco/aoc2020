@@ -3,7 +3,8 @@ package perococco.aoc.day11;
 import lombok.NonNull;
 import perococco.aoc.api.AOCProblem;
 import perococco.aoc.common.GridHelper;
-import perococco.aoc.day11.structures.*;
+import perococco.aoc.day11.structures.AdjacentCounter;
+import perococco.aoc.day11.structures.StateEvolutionRule;
 import perococco.aoc.day11.structures.algo.AroundAdjacentCounter;
 import perococco.aoc.day11.structures.algo.WithLeavingThresholdRule;
 

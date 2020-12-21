@@ -4,8 +4,6 @@ import lombok.NonNull;
 import perococco.aoc.api.AOCProblem;
 import perococco.aoc.day7.structures.BagGraph;
 
-import static perococco.aoc.common.Tools.TODO;
-
 public class Day7Part2Solver extends Day7Solver {
 
     @Override

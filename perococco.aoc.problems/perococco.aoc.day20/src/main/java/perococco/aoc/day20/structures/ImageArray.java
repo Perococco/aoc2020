@@ -2,7 +2,6 @@ package perococco.aoc.day20.structures;
 
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
-import perococco.aoc.common.Array;
 import perococco.aoc.common.ArrayOfChar;
 import perococco.aoc.common.GenericArray;
 import perococco.aoc.common.Tools;

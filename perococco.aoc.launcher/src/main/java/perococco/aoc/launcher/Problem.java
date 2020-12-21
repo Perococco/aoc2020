@@ -9,7 +9,6 @@ import perococco.aoc.common.AOCException;
 import perococco.aoc.launcher._private.ProblemService;
 
 import static perococco.aoc.launcher._private.ProblemService.findLastDefinedProblem;
-import static perococco.aoc.launcher._private.ProblemService.getProblemById;
 
 public class Problem implements AOCProblem<Object> {
 

@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 import perococco.aoc.day14.structures.Instruction;
 import perococco.aoc.day14.structures.Memory;
-import perococco.aoc.day14.structures.MemoryPart2;
 import perococco.aoc.input.Converter;
 import perococco.aoc.input.SmartSolver;
 
