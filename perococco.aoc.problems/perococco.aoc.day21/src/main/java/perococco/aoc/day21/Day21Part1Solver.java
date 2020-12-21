@@ -2,24 +2,21 @@ package perococco.aoc.day21;
 
 import lombok.NonNull;
 import perococco.aoc.api.AOCProblem;
-import perococco.aoc.input.Converter;
-import perococco.aoc.input.SmartSolver;
+import perococco.aoc.day21.structures.Guide;
 
-import java.util.stream.Stream;
-
-public class Day21Part1Solver extends SmartSolver<Stream<String>,Object> {
+public class Day21Part1Solver extends Day21Solver<Integer> {
 
     public static @NonNull AOCProblem<?> provider() {
-        return new Day21Part1Solver().createProblem().skipped();
+        return new Day21Part1Solver().createProblem();
     }
 
     @Override
-    protected @NonNull Converter<Stream<String>> getConverter() {
-        return s -> s;
-    }
+    public @NonNull Integer solve(@NonNull Guide guide) {
 
-    @Override
-    public @NonNull Object solve(@NonNull Stream<String> input) {
-        throw new RuntimeException("NOT IMPLEMENTED");
+        return guide.safeIngredients()
+             .stream()
+             .mapToInt(i -> guide.bagOfIngredients().quantity(i))
+             .sum();
+
     }
 }

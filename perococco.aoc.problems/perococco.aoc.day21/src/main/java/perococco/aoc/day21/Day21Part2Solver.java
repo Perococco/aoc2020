@@ -2,24 +2,28 @@ package perococco.aoc.day21;
 
 import lombok.NonNull;
 import perococco.aoc.api.AOCProblem;
-import perococco.aoc.input.Converter;
-import perococco.aoc.input.SmartSolver;
+import perococco.aoc.day21.structures.Allergen;
+import perococco.aoc.day21.structures.Guide;
+import perococco.aoc.day21.structures.Ingredient;
 
-import java.util.stream.Stream;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.stream.Collectors;
 
-public class Day21Part2Solver extends SmartSolver<Stream<String>,Object> {
+public class Day21Part2Solver extends Day21Solver<String> {
 
     public static @NonNull AOCProblem<?> provider() {
-        return new Day21Part2Solver().createProblem().skipped();
+        return new Day21Part2Solver().createProblem();
     }
 
     @Override
-    protected @NonNull Converter<Stream<String>> getConverter() {
-        return s -> s;
-    }
-
-    @Override
-    public @NonNull Object solve(@NonNull Stream<String> input) {
-        throw new RuntimeException("NOT IMPLEMENTED");
+    public @NonNull String solve(@NonNull Guide guide) {
+        return guide.allergenIdentification()
+                    .entrySet()
+                    .stream()
+                    .sorted(Comparator.comparing(Map.Entry::getKey))
+                    .map(Map.Entry::getValue)
+                    .map(Ingredient::name)
+                    .collect(Collectors.joining(","));
     }
 }
