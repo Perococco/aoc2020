@@ -4,8 +4,7 @@ import com.google.common.collect.ImmutableList;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-
-import java.util.function.Consumer;
+import perococco.aoc.common.ArrayOfChar;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Parser {
@@ -17,13 +16,13 @@ public class Parser {
     private final @NonNull ImmutableList<String> lines;
 
     private final ImmutableList.Builder<ImageTile> tileListBuilder = ImmutableList.builder();
-    private ImageTile.ImageTileBuilder imageTileBuilder;
+    private ImageTileBuilder imageTileBuilder;
 
     private @NonNull ImmutableList<ImageTile> parse() {
         this.initializeImageTileBuilder();
         for (String line : lines) {
             if (line.isBlank()) {
-                this.addImageTileInProgressToListOfTile();
+                this.addImageTileInProgressToListOfTiles();
             } else if (line.startsWith("Tile ")) {
                 this.initializeImageTileBuilder();
                 this.parseImageTileId(line);
@@ -31,11 +30,11 @@ public class Parser {
                 this.parseDataLine(line);
             }
         }
-        this.addImageTileInProgressToListOfTile();
+        this.addImageTileInProgressToListOfTiles();
         return tileListBuilder.build();
     }
 
-    private void addImageTileInProgressToListOfTile() {
+    private void addImageTileInProgressToListOfTiles() {
         if (this.imageTileBuilder != null) {
             this.tileListBuilder.add(this.imageTileBuilder.build());
         }
@@ -43,7 +42,7 @@ public class Parser {
     }
 
     private void initializeImageTileBuilder() {
-        this.imageTileBuilder = ImageTile.builder();
+        this.imageTileBuilder = new ImageTileBuilder();
     }
 
     private void parseImageTileId(String line) {
@@ -55,4 +54,22 @@ public class Parser {
         imageTileBuilder.datum(line);
     }
 
+
+    private static class ImageTileBuilder {
+
+        private Integer id;
+        private ImmutableList.Builder<String> data = ImmutableList.builder();
+
+        public void id(int id) {
+            this.id = id;
+        }
+
+        public void datum(@NonNull String line) {
+            this.data.add(line);
+        }
+
+        public @NonNull ImageTile build() {
+            return new ImageTile(id, ArrayOfChar.from(data.build(),'.'));
+        }
+    }
 }

@@ -19,7 +19,7 @@ import java.util.stream.Stream;
  * @author perococco
  **/
 @RequiredArgsConstructor
-public abstract class BaseArray {
+public abstract class BaseArray implements Array {
 
     @Getter
     private final int width;
@@ -27,19 +27,19 @@ public abstract class BaseArray {
     @Getter
     private final int height;
 
-    public boolean isPositionInRange(@NonNull Position position) {
+    protected boolean isPositionInRange(@NonNull Position position) {
         return isInRange(position.x(),  position.y());
     }
 
-    public boolean isInRange(int x, int y) {
+    protected boolean isInRange(int x, int y) {
         return x >= 0 && y >= 0 && x < width && y < height;
     }
 
-    public int xyToIndex(int x, int y) {
+    protected int xyToIndex(int x, int y) {
         return x + y*width;
     }
 
-    public int positionToIndex(@NonNull Position position) {
+    protected int positionToIndex(@NonNull Position position) {
         return xyToIndex(position.x(),position.y());
     }
 
@@ -65,7 +65,7 @@ public abstract class BaseArray {
     }
 
     @NonNull
-    protected static <A,B extends BaseArray> Collector<String,?,B> baseCollector(
+    protected static <A,B> Collector<String,?,B> baseCollector(
             @NonNull Function<? super String, ? extends A> lineTransformer,
             @NonNull ToIntFunction<? super A> lineSizeEvaluator,
             @NonNull IntFunction<? extends A> arrayCreator,

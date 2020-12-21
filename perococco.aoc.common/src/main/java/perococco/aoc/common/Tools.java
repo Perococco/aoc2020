@@ -11,6 +11,10 @@ import java.util.stream.Collector;
 
 public class Tools {
 
+    public static long longProduct(long l1, long l2) {
+        return l1*l2;
+    }
+
     public static @NonNull String reverse(@NonNull String string) {
             return new StringBuilder(string).reverse().toString();
     }
@@ -155,9 +159,13 @@ public class Tools {
     }
 
     public static int mod(int value, int base) {
-        return (value%base)+(value<0?base:0);
+        final int m = value%base;
+        return m<0?m+base:m;
     }
 
+    public static int sqrt(int value) {
+        return (int)Math.round(Math.sqrt(value));
+    }
 
     public static <E extends Enum<E>> @NonNull Collector<E,?,EnumSet<E>> enumSetCollector(@NonNull Class<E> enumType) {
         return Collector.of(

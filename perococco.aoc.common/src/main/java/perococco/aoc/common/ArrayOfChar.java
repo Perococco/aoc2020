@@ -1,99 +1,104 @@
 package perococco.aoc.common;
 
+import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
 
-import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.function.Function;
 import java.util.function.IntFunction;
+import java.util.function.IntUnaryOperator;
 import java.util.stream.Collector;
-import java.util.stream.IntStream;
 
 /**
  * @author perococco
  **/
-public class ArrayOfChar extends BaseArray {
+public interface ArrayOfChar extends Array, ArrayOfCharReader{
 
+    static @NonNull ArrayOfChar from(@NonNull String data, char filling) {
+        return Arrays.stream(data.split("\n"))
+                .collect(ArrayOfChar.collector(filling));
+    }
+
+    static @NonNull ArrayOfChar from(@NonNull ImmutableList<String> data, char filling) {
+        return data.stream().collect(ArrayOfChar.collector(filling));
+    }
+
+    static @NonNull ArrayOfChar of(char[] data, char filling, int width, int height) {
+        return new BaseArrayOfChar(data,filling,width,height);
+    }
+
+    @NonNull Transformation transformation();
+
+    /**
+     * @param position the seek position
+     * @return the char at the provided position
+     */
+    char get(@NonNull Position position);
+
+    /**
+     * @return the char at x and y
+     */
+    char get(int x, int y);
+
+    char filling();
+
+    /**
+     * Collect a stream of string to an array of char
+     * @param filling the char to use as a filling for position outside of the array
+     * @return an {@link ArrayOfChar} built from the stream of string
+     */
     @NonNull
-    private final char[] data;
-
-    private final char filling;
-
-    public ArrayOfChar(@NonNull char[] data, char filling, int width, int height) {
-        super(width, height);
-        this.data = data;
-        this.filling = filling;
-    }
-
-    public char get(@NonNull Position position) {
-        if (isPositionInRange(position)) {
-            return data[positionToIndex(position)];
-        }
-        return filling;
-    }
-
-    public char get(int x, int y) {
-        if (isInRange(x,y)) {
-            return data[xyToIndex(x,y)];
-        }
-        return filling;
-    }
-
-    @Override
-    protected void printSingleElement(@NonNull PrintStream printStream, int elementIndex) {
-        printStream.print(data[elementIndex]);
-    }
-
-    @NonNull
-    public <T> T[] convert(@NonNull Function<? super Character, ? extends T> converter,@NonNull IntFunction<T[]> arrayCreator) {
-        return IntStream.range(0,width()*height()).mapToObj(i -> converter.apply(data[i])).toArray(arrayCreator);
-    }
-
-    @NonNull
-    public static Collector<String,?,ArrayOfChar> collector(char filling) {
-        return baseCollector(
+    static Collector<String,?,ArrayOfChar> collector(char filling) {
+        return BaseArray.baseCollector(
                 String::toCharArray,
                 c -> c.length,
                 char[]::new,
                 a -> Arrays.fill(a, filling),
                 (source, destination, destinationOffset) -> System.arraycopy(source, 0, destination, destinationOffset,
                                                                              source.length),
-                (source, width, height) -> new ArrayOfChar(source,filling,width,height)
+                (source, width, height) -> new BaseArrayOfChar(source,filling,width,height)
 
 
         );
     }
 
-    public void set(int x, int y, char value) {
-        this.data[xyToIndex(x,y)] = value;
+    @NonNull String asString();
+
+    @NonNull ArrayOfChar rotate(@NonNull Rotation rotation);
+
+    @NonNull ArrayOfChar flip(@NonNull Flipping flipping);
+
+    default @NonNull String upperBorder() {
+        return extract(i -> i ,i -> 0, width());
     }
 
-    public void setWith(int destX, int destY, @NonNull ArrayOfChar other, int srcX, int srcY, int lengthX, int lengthY) {
-        for (int x = 0,dx=destX,sx=srcX; x < lengthX; x++,dx++,sx++) {
-            for (int y = 0,dy=destY,sy=srcY; y < lengthY; y++,dy++,sy++) {
-                this.data[xyToIndex(dx,dy)] = other.get(sx,sy);
-            }
+    default @NonNull String lowerBorder() {
+        final int width = width();
+        final int height = height();
+        return extract(i -> width-1-i ,i -> height-1, width);
+    }
+
+    default @NonNull String leftBorder() {
+        final int width = width();
+        final int height = height();
+        return extract(i -> 0 ,i -> height-1-i, height);
+    }
+
+    default @NonNull String rightBorder() {
+        final int width = width();
+        final int height = height();
+        return extract(i -> width-1 ,i -> i, height);
+    }
+
+    default @NonNull String extract(IntUnaryOperator xGetter, IntUnaryOperator yGetter,int length) {
+        final StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            final int x = xGetter.applyAsInt(i);
+            final int y = yGetter.applyAsInt(i);
+            sb.append(get(x,y));
         }
+        return sb.toString();
     }
 
-    public ArrayOfChar flip() {
-        final ArrayOfChar flipped = new ArrayOfChar(data.clone(),filling,width(),height());
-        for (int x = 0; x < flipped.width() ; x++) {
-            for (int y = 0; y < flipped.height(); y++) {
-                flipped.data[xyToIndex(x,y)] = this.get(width()-1-x,y);
-            }
-        }
-        return flipped;
-    }
-
-    public ArrayOfChar rotate90() {
-        final ArrayOfChar rotated = new ArrayOfChar(data.clone(),filling,height(),width());
-        for (int x = 0; x < rotated.width() ; x++) {
-            for (int y = 0; y < rotated.height(); y++) {
-                rotated.data[xyToIndex(x,y)] = this.get(rotated.height()-1-y, x);
-            }
-        }
-        return rotated;
-    }
-
+    @NonNull ArrayOfChar transform(@NonNull Transformation transformation);
 }

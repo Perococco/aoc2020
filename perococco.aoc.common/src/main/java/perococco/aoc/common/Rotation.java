@@ -1,11 +1,25 @@
 package perococco.aoc.common;
 
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 public enum Rotation {
-    _000,
-    _090,
-    _180,
-    _270,
+    _000(0),
+    _090(1),
+    _180(2),
+    _270(3),
     ;
+
+    @Getter
+    private final int index;
+
+
+    public @NonNull Rotation compose(@NonNull Rotation other) {
+        final int idx = Tools.mod(this.index+other.index,Holder.ROTATIONS.length);
+        return Holder.ROTATIONS[idx];
+    }
 
     public int getX(int x, int y) {
         return switch (this) {
@@ -23,5 +37,10 @@ public enum Rotation {
             case _180 -> -1-y;
             case _270 -> x;
         };
+    }
+
+    private static class Holder {
+
+        private static final Rotation[] ROTATIONS = {_000,_090,_180,_270};
     }
 }

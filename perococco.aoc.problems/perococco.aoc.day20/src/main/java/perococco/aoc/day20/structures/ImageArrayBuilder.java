@@ -13,17 +13,17 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class ImageBuilder {
+public class ImageArrayBuilder {
 
-    public static @NonNull ImmutableList<OrientedImageTitle> build(@NonNull ImmutableList<ImageTile> tiles) {
-        return new ImageBuilder(tiles).build();
+    public static @NonNull ImageArray build(@NonNull ImmutableList<ImageTile> tiles) {
+        return ImageArray.with(new ImageArrayBuilder(tiles).build());
     }
 
     private final ImmutableList<ImageTile> tiles;
     private int width;
     private Dictionary dictionary;
 
-    private @NonNull ImmutableList<OrientedImageTitle> build() {
+    private @NonNull ImmutableList<ImageTile> build() {
         this.buildTileDictionary();
         this.computeFinalImageSize();
 
@@ -42,39 +42,39 @@ public class ImageBuilder {
         this.dictionary = DictionaryBuilder.build(tiles);
     }
 
-    private @NonNull Optional<ImmutableList<OrientedImageTitle>> addNewPiece(@NonNull ImageInProgress image, @NonNull final Set<Integer> availableIds) {
+    private @NonNull Optional<ImmutableList<ImageTile>> addNewPiece(@NonNull ImageInProgress image, @NonNull final Set<Integer> availableIds) {
         if (availableIds.isEmpty()) {
             return Optional.of(image.buildResult());
         }
 
-        final Stream<OrientedImageTitle> matchingTiles;
+        final Stream<ImageTile> matchingTiles;
         if (image.x == 0 && image.y == 0) {
-            matchingTiles = dictionary.allTiles();
+            matchingTiles = dictionary.allCorners();
         } else if (image.x == 0) {
-            matchingTiles = dictionary.findWithUpMatching(image.getMatchingDown());
+            matchingTiles = dictionary.findWithUpMatching(image.getReversedLower());
         } else if (image.y == 0) {
-            matchingTiles = dictionary.findWithLeftMatching(image.getMatchingRight());
+            matchingTiles = dictionary.findWithLeftMatching(image.getReversedRight());
         } else {
-            matchingTiles = dictionary.findWithLeftAndUpMatching(image.getMatchingRight(), image.getMatchingDown());
+            matchingTiles = dictionary.findWithLeftAndUpMatching(image.getReversedRight(), image.getReversedLower());
         }
 
-        final Predicate<OrientedImageTitle> isAvailable = i -> availableIds.contains(i.getImageTileId());
+        final Predicate<ImageTile> isAvailable = i -> availableIds.contains(i.id());
         final var candidates = matchingTiles.filter(isAvailable).collect(Collectors.toSet());
 
         while (true) {
-            final OrientedImageTitle tested = candidates.stream().findAny().orElse(null);
+            final ImageTile tested = candidates.stream().findAny().orElse(null);
             if (tested == null) {
                 break;
             }
             candidates.remove(tested);
-            availableIds.remove(tested.getImageTileId());
+            availableIds.remove(tested.id());
             image.pushTile(tested);
             final var result = addNewPiece(image, availableIds);
             if (result.isPresent()) {
                 return result;
             }
             image.popTile();
-            availableIds.add(tested.getImageTileId());
+            availableIds.add(tested.id());
         }
         return Optional.empty();
     }
@@ -82,7 +82,7 @@ public class ImageBuilder {
     @AllArgsConstructor
     private static class ImageInProgress {
 
-        private final List<OrientedImageTitle> matchingTiles;
+        private final List<ImageTile> matchingTiles;
         private final int width;
         private int x;
         private int y;
@@ -91,19 +91,19 @@ public class ImageBuilder {
             return new ImageInProgress(new ArrayList<>(width*width),width, 0, 0);
         }
 
-        public @NonNull String getMatchingDown() {
-            return getImageAt(x, y - 1).matchingDown();
+        public @NonNull String getReversedLower() {
+            return getImageAt(x, y - 1).reversedLowerBorder();
         }
 
-        public @NonNull String getMatchingRight() {
-            return getImageAt(x - 1, y).matchingRight();
+        public @NonNull String getReversedRight() {
+            return getImageAt(x - 1, y).reversedRightBorder();
         }
 
-        public @NonNull OrientedImageTitle getImageAt(int x, int y) {
+        public @NonNull ImageTile getImageAt(int x, int y) {
             return matchingTiles.get(x + y * width);
         }
 
-        public void pushTile(@NonNull OrientedImageTitle tested) {
+        public void pushTile(@NonNull ImageTile tested) {
             matchingTiles.add(tested);
             this.moveToNextPosition();
         }
@@ -129,7 +129,7 @@ public class ImageBuilder {
             }
         }
 
-        public @NonNull ImmutableList<OrientedImageTitle> buildResult() {
+        public @NonNull ImmutableList<ImageTile> buildResult() {
             return ImmutableList.copyOf(matchingTiles);
         }
     }

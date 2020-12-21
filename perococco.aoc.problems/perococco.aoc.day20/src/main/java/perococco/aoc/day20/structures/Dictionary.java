@@ -14,32 +14,39 @@ import java.util.stream.Stream;
 public class Dictionary {
 
     @NonNull
-    private final Table<String, String, Set<OrientedImageTitle>> table;
+    private final Table<String, String, Set<ImageTile>> table;
 
-    public @NonNull Stream<OrientedImageTitle> findWithUpMatching(@NonNull String down) {
-        return Optional.ofNullable(table.column(down))
+    public @NonNull Stream<ImageTile> findWithUpMatching(@NonNull String reverseDown) {
+        return Optional.ofNullable(table.column(reverseDown))
                        .stream()
                        .map(Map::values)
                        .flatMap(Collection::stream)
                        .flatMap(Collection::stream);
     }
 
-    public @NonNull Stream<OrientedImageTitle> findWithLeftMatching(@NonNull String right) {
-        return Optional.ofNullable(table.row(right))
+    public @NonNull Stream<ImageTile> findWithLeftMatching(@NonNull String reversedRight) {
+        return Optional.ofNullable(table.row(reversedRight))
                        .stream()
                        .map(Map::values)
                        .flatMap(Collection::stream)
                        .flatMap(Collection::stream);
     }
 
-    public @NonNull Stream<OrientedImageTitle> findWithLeftAndUpMatching(@NonNull String right, @NonNull String down) {
+    public @NonNull Stream<ImageTile> findWithLeftAndUpMatching(@NonNull String right, @NonNull String down) {
         return Optional.ofNullable(table.get(right,down))
                        .stream()
                        .flatMap(Collection::stream);
 
     }
 
-    public @NonNull Stream<OrientedImageTitle> allTiles() {
+    public @NonNull Stream<ImageTile> allTiles() {
         return table.values().stream().flatMap(Collection::stream);
+    }
+
+    public @NonNull Stream<ImageTile> allCorners() {
+        return table.values()
+                    .stream()
+                    .filter(s -> s.size()==1)
+                    .flatMap(Collection::stream);
     }
 }
