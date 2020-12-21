@@ -10,11 +10,11 @@ import java.util.concurrent.atomic.AtomicReference;
 @Getter
 public class OrientedImageTitle {
 
-    @NonNull Orientation orientation;
-    boolean flipped;
-    @NonNull ImageTile imageTile;
-    @NonNull String matchingRight;
-    @NonNull String matchingDown;
+    private @NonNull Orientation orientation;
+    private boolean flipped;
+    private @NonNull ImageTile imageTile;
+    private @NonNull String matchingRight;
+    private @NonNull String matchingDown;
 
 
     public OrientedImageTitle(@NonNull Orientation orientation, boolean flipped, @NonNull ImageTile imageTile) {

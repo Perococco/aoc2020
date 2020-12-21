@@ -39,7 +39,7 @@ public class Day20Part2Solver extends Day20Solver {
                 ArrayOfChar::rotate90
         );
 
-        var positions = parseMonster();
+        var positions = parseMonster(MONSTER);
         var image = buildFullImage(imageTiles);
         for (var operator : operators) {
             image = operator.apply(image);
@@ -64,9 +64,9 @@ public class Day20Part2Solver extends Day20Solver {
                     ).count();
     }
 
-    private Set<Position> parseMonster() {
+    private @NonNull Set<Position> parseMonster(@NonNull String monsterPattern) {
         final Set<Position> positions = new HashSet<>();
-        final String[] lines = MONSTER.split("\n");
+        final String[] lines = monsterPattern.split("\n");
         for (int y = 0; y < lines.length; y++) {
             final var line = lines[y];
             for (int x = 0; x < line.length(); x++) {
@@ -78,7 +78,7 @@ public class Day20Part2Solver extends Day20Solver {
         return positions;
     }
 
-    private ArrayOfChar buildFullImage(@NonNull ImmutableList<ImageTile> imageTiles) {
+    private @NonNull ArrayOfChar buildFullImage(@NonNull ImmutableList<ImageTile> imageTiles) {
         final var image = ImageBuilder.build(imageTiles);
         final ImageTile first = imageTiles.get(0);
         final int nbTiles = imageTiles.size();
@@ -94,7 +94,8 @@ public class Day20Part2Solver extends Day20Solver {
             final int y = i / sqrtTiles;
             final var imageTile = image.get(i);
 
-            arrayOfChar.setWith(x * (tileWidth - 2), y * (tileWidth - 2), imageTile.asArrayOfChar(), 1, 1, tileWidth - 2, tileWidth - 2);
+            arrayOfChar.setWith(x * (tileWidth - 2), y * (tileWidth - 2),
+                                imageTile.asArrayOfChar(), 1, 1, tileWidth - 2, tileWidth - 2);
         }
         return arrayOfChar;
     }

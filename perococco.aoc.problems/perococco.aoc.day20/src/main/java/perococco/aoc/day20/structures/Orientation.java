@@ -18,23 +18,12 @@ public enum Orientation {
     private final int index;
 
     public @NonNull String getRight(@NonNull ImageTile imageTile, boolean flipped) {
-        if (flipped) {
-            return Tools.reverse(getBorder(imageTile,index+3));
-        }
-        return getBorder(imageTile,index+1);
+        final var value = getBorder(imageTile,index+1+(flipped?2:0));
+        return flipped?Tools.reverse(value):value;
     }
     public @NonNull String getDown(@NonNull ImageTile imageTile, boolean flipped) {
         final var value = getBorder(imageTile,index+2);
         return flipped?Tools.reverse(value):value;
-    }
-
-    public @NonNull Orientation inverse() {
-        return switch (this) {
-            case _0 -> _0;
-            case _90 -> _270;
-            case _180 -> _180;
-            case _270 -> _90;
-        };
     }
 
     private @NonNull String getBorder(@NonNull ImageTile imageTile, int index) {

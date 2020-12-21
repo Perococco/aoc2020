@@ -8,19 +8,13 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import perococco.aoc.common.Tools;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class DictionaryBuilder {
 
-    /**
-     * @param imageTiles
-     * @return a table row are left border and column up border
-     */
-    public static @NonNull Table<String, String, Set<OrientedImageTitle>> build(@NonNull ImmutableList<ImageTile> imageTiles) {
+    public static @NonNull Dictionary build(@NonNull ImmutableList<ImageTile> imageTiles) {
         return new DictionaryBuilder(imageTiles).build();
     }
 
@@ -28,11 +22,11 @@ public class DictionaryBuilder {
 
     private final Table<String, String, Set<OrientedImageTitle>> table = HashBasedTable.create();
 
-    private Table<String,String, Set<OrientedImageTitle>> build() {
+    private @NonNull Dictionary build() {
         for (ImageTile imageTile : imageTiles) {
             addOneImageTile(imageTile);
         }
-        return table;
+        return new Dictionary(table);
     }
 
     private void addOneImageTile(@NonNull ImageTile imageTile) {

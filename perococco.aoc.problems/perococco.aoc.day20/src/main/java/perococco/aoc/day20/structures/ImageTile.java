@@ -3,56 +3,51 @@ package perococco.aoc.day20.structures;
 import com.google.common.collect.ImmutableList;
 import lombok.*;
 import perococco.aoc.common.ArrayOfChar;
-import perococco.aoc.common.Tools;
+
+import java.util.function.IntUnaryOperator;
 
 @Value
 public class ImageTile {
 
     @Getter
     int id;
-
-    @Getter
-    @NonNull ImmutableList<String> data;
     @Getter
     @NonNull ArrayOfChar arrayOfChar;
 
     @Builder
     public ImageTile(int id, @Singular(value = "datum") @NonNull ImmutableList<String> data) {
         this.id = id;
-        this.data = data;
         this.arrayOfChar = data.stream().collect(ArrayOfChar.collector('.'));
     }
 
     public @NonNull String extractUpperBorder() {
-        return data.get(0);
+        return extract(i -> i, i -> 0);
     }
 
     public @NonNull String extractRightBorder() {
-        final StringBuilder sb = new StringBuilder();
-        for (String datum : data) {
-            sb.append(datum.charAt(datum.length()-1));
-        }
-        return sb.toString();
-    }
-
-    public @NonNull String extractLeftBorder() {
-        final StringBuilder sb = new StringBuilder();
-        for (String datum : data.reverse()) {
-            sb.append(datum.charAt(0));
-        }
-        return sb.toString();
+        return extract(i -> width()-1, i -> i);
     }
 
     public @NonNull String extractBottomBorder() {
-        return Tools.reverse(data.get(data.size()-1));
+        return extract(i -> width()-1-i,i -> width()-1);
     }
 
-    @Override
-    public String toString() {
-        return String.join("\n", data);
+    public @NonNull String extractLeftBorder() {
+        return extract(i -> 0, i -> width()-1-i);
+    }
+
+
+
+    private @NonNull String extract(@NonNull IntUnaryOperator x, @NonNull IntUnaryOperator y) {
+        final StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < width(); i++) {
+            sb.append(arrayOfChar.get(x.applyAsInt(i),y.applyAsInt(i)));
+        }
+        return sb.toString();
+
     }
 
     public int width() {
-        return data.size();
+        return arrayOfChar.width();
     }
 }

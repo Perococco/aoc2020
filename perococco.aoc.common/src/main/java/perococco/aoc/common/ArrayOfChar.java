@@ -95,4 +95,5 @@ public class ArrayOfChar extends BaseArray {
         }
         return rotated;
     }
+
 }

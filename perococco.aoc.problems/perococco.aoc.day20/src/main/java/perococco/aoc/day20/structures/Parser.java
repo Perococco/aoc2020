@@ -24,22 +24,22 @@ public class Parser {
         for (String line : lines) {
             if (line.isBlank()) {
                 this.addImageTileInProgressToListOfTile();
-                this.imageTileBuilder = null;
-            } else if (line.startsWith("Tile ")){
+            } else if (line.startsWith("Tile ")) {
                 this.initializeImageTileBuilder();
                 this.parseImageTileId(line);
             } else {
                 this.parseDataLine(line);
             }
         }
-        if (this.imageTileBuilder != null) {
-            this.addImageTileInProgressToListOfTile();
-        }
+        this.addImageTileInProgressToListOfTile();
         return tileListBuilder.build();
     }
 
     private void addImageTileInProgressToListOfTile() {
-        this.tileListBuilder.add(this.imageTileBuilder.build());
+        if (this.imageTileBuilder != null) {
+            this.tileListBuilder.add(this.imageTileBuilder.build());
+        }
+        this.imageTileBuilder = null;
     }
 
     private void initializeImageTileBuilder() {
@@ -47,7 +47,7 @@ public class Parser {
     }
 
     private void parseImageTileId(String line) {
-        final int id = Integer.parseInt(line.substring("Tile ".length(),line.length()-1));
+        final int id = Integer.parseInt(line.substring("Tile ".length(), line.length() - 1));
         imageTileBuilder.id(id);
     }
 

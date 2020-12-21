@@ -17,15 +17,4 @@ public abstract class Day20Solver extends SmartSolver<ImmutableList<ImageTile>,L
         return Converter.ALL_LINES.andThen(Parser::parse);
     }
 
-    public long computeProductOfIdOfCorners(@NonNull ImmutableList<OrientedImageTitle> image) {
-        int width = (int)Math.round(Math.sqrt(image.size()));
-
-        final var c1 = image.get(0);
-        final var c2 = image.get(width-1);
-        final var c4=image.get(width*width-1);
-        final var c3=image.get((width-1)*width);
-
-        return Stream.of(c1,c2,c3,c4).mapToLong(c -> c.getImageTileId()).reduce(1, (i1,i2) -> i1*i2);
-
-    }
 }
