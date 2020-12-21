@@ -11,6 +11,10 @@ import java.util.stream.Collector;
 
 public class Tools {
 
+    public static @NonNull String reverse(@NonNull String string) {
+            return new StringBuilder(string).reverse().toString();
+    }
+
     public static <T> T TODO() {
         throw new AOCException("TO IMPLEMENT");
     }

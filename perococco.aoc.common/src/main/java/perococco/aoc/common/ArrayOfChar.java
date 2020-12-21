@@ -63,4 +63,36 @@ public class ArrayOfChar extends BaseArray {
 
         );
     }
+
+    public void set(int x, int y, char value) {
+        this.data[xyToIndex(x,y)] = value;
+    }
+
+    public void setWith(int destX, int destY, @NonNull ArrayOfChar other, int srcX, int srcY, int lengthX, int lengthY) {
+        for (int x = 0,dx=destX,sx=srcX; x < lengthX; x++,dx++,sx++) {
+            for (int y = 0,dy=destY,sy=srcY; y < lengthY; y++,dy++,sy++) {
+                this.data[xyToIndex(dx,dy)] = other.get(sx,sy);
+            }
+        }
+    }
+
+    public ArrayOfChar flip() {
+        final ArrayOfChar flipped = new ArrayOfChar(data.clone(),filling,width(),height());
+        for (int x = 0; x < flipped.width() ; x++) {
+            for (int y = 0; y < flipped.height(); y++) {
+                flipped.data[xyToIndex(x,y)] = this.get(width()-1-x,y);
+            }
+        }
+        return flipped;
+    }
+
+    public ArrayOfChar rotate90() {
+        final ArrayOfChar rotated = new ArrayOfChar(data.clone(),filling,height(),width());
+        for (int x = 0; x < rotated.width() ; x++) {
+            for (int y = 0; y < rotated.height(); y++) {
+                rotated.data[xyToIndex(x,y)] = this.get(rotated.height()-1-y, x);
+            }
+        }
+        return rotated;
+    }
 }
