@@ -2,24 +2,23 @@ package perococco.aoc.day22;
 
 import lombok.NonNull;
 import perococco.aoc.api.AOCProblem;
-import perococco.aoc.input.Converter;
-import perococco.aoc.input.SmartSolver;
+import perococco.aoc.day22.structures.GameSetup;
+import perococco.aoc.day22.structures.RecursiveCombat;
+import perococco.aoc.day22.structures.RecursiveCombatOutCome;
 
-import java.util.stream.Stream;
-
-public class Day22Part2Solver extends SmartSolver<Stream<String>,Object> {
+public class Day22Part2Solver extends Day22Solver<Long> {
 
     public static @NonNull AOCProblem<?> provider() {
-        return new Day22Part2Solver().createProblem().skipped();
+        return new Day22Part2Solver().createProblem();
     }
 
     @Override
-    protected @NonNull Converter<Stream<String>> getConverter() {
-        return s -> s;
+    public @NonNull Long solve(@NonNull GameSetup input) {
+
+        final RecursiveCombat recursiveCombat = RecursiveCombat.create(input);
+        final RecursiveCombatOutCome outCome = recursiveCombat.playGame();
+
+        return outCome.getWinnerDeck().score();
     }
 
-    @Override
-    public @NonNull Object solve(@NonNull Stream<String> input) {
-        throw new RuntimeException("NOT IMPLEMENTED");
-    }
 }
