@@ -16,7 +16,7 @@ public class GameState {
 
     @NonNull Deck player2;
 
-    public int playerFirstCard(@NonNull Player player) {
+    public int firstCardOf(@NonNull Player player) {
         return getDeck(player).firstCard();
     }
 
