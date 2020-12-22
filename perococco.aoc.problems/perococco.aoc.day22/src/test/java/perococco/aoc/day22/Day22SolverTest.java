@@ -3,6 +3,7 @@ package perococco.aoc.day22;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import perococco.aoc.day22.structures.Score;
 
 public class Day22SolverTest {
 
@@ -36,7 +37,7 @@ public class Day22SolverTest {
     @Test
     public void testPart1() {
         final var actual = new Day22Part1Solver().createProblem(TEST_INPUT).solve();
-        Assertions.assertEquals(306,actual);
+        Assertions.assertEquals(Score.of(306), actual);
     }
 
     @Test
@@ -48,7 +49,20 @@ public class Day22SolverTest {
     @Test
     public void testPart2() {
         final var actual = new Day22Part2Solver().createProblem(TEST_INPUT).solve();
-        Assertions.assertEquals(291,actual);
+        Assertions.assertEquals(Score.of(291),actual);
     }
+
+    @Test
+    public void testPart1WithRealInput() {
+        final var actual = new Day22Part1Solver().createProblem().solve();
+        Assertions.assertEquals(Score.of(33421),actual);
+    }
+
+    @Test
+    public void testPart2WithRealInput() {
+        final var actual = new Day22Part2Solver().createProblem().solve();
+        Assertions.assertEquals(Score.of(33651),actual);
+    }
+
 
 }

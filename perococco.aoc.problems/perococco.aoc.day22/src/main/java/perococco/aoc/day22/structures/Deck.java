@@ -2,45 +2,49 @@ package perococco.aoc.day22.structures;
 
 import com.google.common.collect.ImmutableList;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.Value;
 
-import java.util.Deque;
-import java.util.LinkedList;
-
-@RequiredArgsConstructor
+@Value
 public class Deck {
 
-    public static Deck with(@NonNull ImmutableList<Integer> cards) {
-        return new Deck(new LinkedList<>(cards));
+    ImmutableList<Integer> cards;
+
+    public int firstCard() {
+        return cards.get(0);
     }
 
-    private final Deque<Integer> cards;
-
-    public int pickFirstCard() {
-        return cards.removeFirst();
+    public @NonNull Deck newDeckIfLostRound() {
+        return new Deck(cards.subList(1, cards.size()));
     }
 
-    public void pushCards(int first, int second) {
-        cards.addLast(first);
-        cards.addLast(second);
+    public @NonNull Deck newDeckIfWonRound(int cardOfLooser) {
+        final ImmutableList.Builder<Integer> builder = ImmutableList.builder();
+        builder.addAll(cards.subList(1,cards.size()));
+        builder.add(firstCard());
+        builder.add(cardOfLooser);
+        return new Deck(builder.build());
     }
 
-    @Override
-    public String toString() {
-        return "{" + cards + '}';
+    public boolean canRecurse() {
+        return firstCard()<=(cards.size()-1);
     }
+
+    public @NonNull Deck createSubDeck() {
+        assert canRecurse();
+        return new Deck(cards.subList(1, 1+firstCard()));
+    }
+
 
     public boolean hasNoCard() {
         return cards.isEmpty();
     }
 
-    public long score() {
-        long value = 0;
-        long factor = cards.size();
-        for (int card : cards) {
-            value += card*factor;
-            factor--;
-        }
-        return value;
+    public @NonNull Score score() {
+        return new Score(cards);
+    }
+
+    @Override
+    public String toString() {
+        return  cards.toString() ;
     }
 }

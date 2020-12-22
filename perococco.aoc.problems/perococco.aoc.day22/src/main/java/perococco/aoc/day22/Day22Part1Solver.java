@@ -2,21 +2,18 @@ package perococco.aoc.day22;
 
 import lombok.NonNull;
 import perococco.aoc.api.AOCProblem;
-import perococco.aoc.day22.structures.CrabCombat;
-import perococco.aoc.day22.structures.GameSetup;
+import perococco.aoc.day22.structures.CrabCombatRules;
+import perococco.aoc.day22.structures.GameRules;
+import perococco.aoc.day22.structures.RecursiveCombatRules;
 
-public class Day22Part1Solver extends Day22Solver<Long> {
+public class Day22Part1Solver extends Day22Solver {
 
     public static @NonNull AOCProblem<?> provider() {
         return new Day22Part1Solver().createProblem();
     }
 
     @Override
-    public @NonNull Long solve(@NonNull GameSetup input) {
-        final var game = CrabCombat.from(input);
-        while (!game.isGameEnded()) {
-            game.playOneRound();
-        }
-        return game.score();
+    protected @NonNull GameRules getGameRules() {
+        return new CrabCombatRules();
     }
 }
