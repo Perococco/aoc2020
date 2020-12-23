@@ -2,24 +2,17 @@ package perococco.aoc.day23;
 
 import lombok.NonNull;
 import perococco.aoc.api.AOCProblem;
-import perococco.aoc.input.Converter;
-import perococco.aoc.input.SmartSolver;
 
-import java.util.stream.Stream;
-
-public class Day23Part1Solver extends SmartSolver<Stream<String>,Object> {
+public class Day23Part1Solver extends Day23Solver {
 
     public static @NonNull AOCProblem<?> provider() {
-        return new Day23Part1Solver().createProblem().skipped();
+        return new Day23Part1Solver().createProblem();
     }
 
     @Override
-    protected @NonNull Converter<Stream<String>> getConverter() {
-        return s -> s;
-    }
-
-    @Override
-    public @NonNull Object solve(@NonNull Stream<String> input) {
-        throw new RuntimeException("NOT IMPLEMENTED");
+    public @NonNull String solve(@NonNull String input) {
+        final var circle = new CupCircle(input);
+        circle.performMoves(100);
+        return circle.part1Result();
     }
 }
