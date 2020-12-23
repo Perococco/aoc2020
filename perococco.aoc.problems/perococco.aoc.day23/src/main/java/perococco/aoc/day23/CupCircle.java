@@ -5,13 +5,12 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.function.IntFunction;
 import java.util.stream.IntStream;
 
 public class CupCircle {
 
-    private final Map<Integer, Node> nodes = new HashMap<>();
+    private final Node[] nodeByLabels;
 
     private Node current;
 
@@ -22,31 +21,28 @@ public class CupCircle {
     }
 
     public CupCircle(String initialValues, int size) {
-        this(initialValues.chars().map(i -> i-'0').toArray(),size);
+        this(initialValues.chars().map(i -> i-'1').toArray(),size);
     }
 
     public CupCircle(int[] initialValues, int size) {
         this.size = size;
-        this.current = new Node(initialValues[0]);
-        this.nodes.put(current.value, current);
+        this.nodeByLabels = new Node[size];
+        final IntFunction<Node> createNode = i -> {Node n = new Node(i);nodeByLabels[i]=n;return n;};
+
+        this.current = createNode.apply(initialValues[0]);
 
         Node previous = current;
         for (int i = 1; i < size; i++) {
-            final int val = i < initialValues.length ? initialValues[i] : i+1;
-            Node node = new Node(val);
-            this.nodes.put(node.value, node);
-
-            node.previous = previous;
-            previous.next = node;
+            final int val = i < initialValues.length ? initialValues[i] : i;
+            Node node = createNode.apply(val);
+            previous.setNext(node);
             previous = node;
         }
-
-        previous.next = current;
-        current.previous = previous;
+        previous.setNext(current);
     }
 
     public @NonNull String part1Result() {
-        final Node n1 = nodes.get(1);
+        final Node n1 = nodeByLabels[0];
         final StringBuilder sb = new StringBuilder();
         Node n = n1;
         do {
@@ -54,14 +50,14 @@ public class CupCircle {
             if (n == n1) {
                 return sb.toString();
             }
-            sb.append(n.value);
+            sb.append(n.value+1);
         } while (true);
     }
 
     public @NonNull String part2Result() {
-        final Node n1 = nodes.get(1);
-        final var b1 = new BigDecimal(n1.next.value);
-        final var b2 = new BigDecimal(n1.next.next.value);
+        final Node n1 = nodeByLabels[0];
+        final var b1 = new BigDecimal(n1.next.value+1);
+        final var b2 = new BigDecimal(n1.next.next.value+1);
         return b1.multiply(b2).toString();
     }
 
@@ -79,12 +75,12 @@ public class CupCircle {
         current.setNext(n3.next);
 
         int insertLabel = IntStream.of(-1, -2, -3, -4)
-                               .map(o -> 1+((o + val -1 + size) % size))
+                               .map(o -> ((o + val + size) % size))
                                .filter(i -> n1.value != i && n2.value != i && n3.value != i)
                                .findFirst()
                                .getAsInt();
 
-        @NonNull Node insert = nodes.get(insertLabel);
+        @NonNull Node insert = nodeByLabels[insertLabel];
 
         Node insertNext = insert.next;
         insert.setNext(n1);
@@ -99,14 +95,10 @@ public class CupCircle {
     private static class Node {
 
         private final int value;
-
-        private Node previous;
         private Node next;
-
 
         public void setNext(Node node) {
             next = node;
-            node.previous = this;
         }
 
     }
