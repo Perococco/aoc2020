@@ -4,7 +4,6 @@ import lombok.NonNull;
 import perococco.aoc.api.AOCProblem;
 import perococco.aoc.day22.structures.CrabCombatRules;
 import perococco.aoc.day22.structures.GameRules;
-import perococco.aoc.day22.structures.RecursiveCombatRules;
 
 public class Day22Part1Solver extends Day22Solver {
 

@@ -2,7 +2,6 @@ package perococco.aoc.day21;
 
 import lombok.NonNull;
 import perococco.aoc.api.AOCProblem;
-import perococco.aoc.day21.structures.Allergen;
 import perococco.aoc.day21.structures.Guide;
 import perococco.aoc.day21.structures.Ingredient;
 

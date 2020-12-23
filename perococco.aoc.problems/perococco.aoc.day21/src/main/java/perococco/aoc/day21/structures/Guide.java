@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import perococco.aoc.common.Bag;
 
 import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class Guide {
