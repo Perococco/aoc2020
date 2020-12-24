@@ -19,7 +19,7 @@ public class Day24Part2Solver extends Day24Solver {
         final var gameOfLife = GameOfLife.initialize(initialBlackTiles(input), this::rule);
 
         gameOfLife.performCycles(100);
-        return Math.toIntExact(gameOfLife.numberOfActiveCells());
+        return gameOfLife.numberOfActiveCells();
     }
 
     private @NonNull CellState rule(@NonNull CellState previous, int nbNeighbour) {

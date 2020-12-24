@@ -10,33 +10,35 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiFunction;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class GameOfLife<T extends NeighbourProvider<T>> {
 
-    public static <T extends NeighbourProvider<T>> @NonNull GameOfLife<T> initialize(@NonNull ArrayOfChar arrayOfChar, @NonNull BiFunction<Integer,Integer,? extends T> pointFactory) {
+    public static <T extends NeighbourProvider<T>> @NonNull GameOfLife<T> initialize(@NonNull ArrayOfChar arrayOfChar, @NonNull BiFunction<Integer, Integer, ? extends T> pointFactory) {
         final Set<T> listOfPoints = new HashSet<>();
         for (int y = 0; y < arrayOfChar.height(); y++) {
             for (int x = 0; x < arrayOfChar.width(); x++) {
-                if (arrayOfChar.get(x,y) == '#') {
-                    listOfPoints.add(pointFactory.apply(x,y));
+                if (arrayOfChar.get(x, y) == '#') {
+                    listOfPoints.add(pointFactory.apply(x, y));
                 }
             }
         }
-        return new GameOfLife<T>(listOfPoints,GameOfLifeRule.DEFAULT_RULE);
+        return new GameOfLife<T>(listOfPoints, GameOfLifeRule.DEFAULT_RULE);
     }
 
     public static <T extends NeighbourProvider<T>> @NonNull GameOfLife<T> initialize(@NonNull ImmutableSet<T> initialState) {
-        return new GameOfLife<T>(new HashSet<T>(initialState),GameOfLifeRule.DEFAULT_RULE);
+        return new GameOfLife<T>(new HashSet<T>(initialState), GameOfLifeRule.DEFAULT_RULE);
     }
 
     public static <T extends NeighbourProvider<T>> @NonNull GameOfLife<T> initialize(@NonNull ImmutableSet<T> initialState, @NonNull GameOfLifeRule gameOfLifeRule) {
-        return new GameOfLife<T>(new HashSet<T>(initialState),gameOfLifeRule);
+        return new GameOfLife<T>(new HashSet<T>(initialState), gameOfLifeRule);
     }
 
-    private @NonNull Set<T> activeCubes;
+    private @NonNull Set<T> aliveCells;
     private final GameOfLifeRule gameOfLifeRule;
-    private final @NonNull Map<T,Integer> neighbourCount = new HashMap<>();
+    private final @NonNull Map<T, Integer> neighbourCount = new HashMap<>();
 
     public void performCycles(int numberOfCycles) {
         for (int i = 0; i < numberOfCycles; i++) {
@@ -46,7 +48,7 @@ public class GameOfLife<T extends NeighbourProvider<T>> {
 
     private void performOneCycle() {
         this.clearNeighbourCount();
-        activeCubes.forEach(cube -> increaseNeighbourCount(cube));
+        aliveCells.forEach(this::increaseNeighbourCount);
         this.updateActiveCubes();
     }
 
@@ -54,8 +56,8 @@ public class GameOfLife<T extends NeighbourProvider<T>> {
         this.neighbourCount.clear();
     }
 
-    private void increaseNeighbourCount(@NonNull T cube) {
-        cube.neighbours().forEach(this::increaseNeighbourCountAt);
+    private void increaseNeighbourCount(@NonNull T cell) {
+        cell.neighbours().forEach(this::increaseNeighbourCountAt);
     }
 
     private void increaseNeighbourCountAt(T position) {
@@ -63,20 +65,26 @@ public class GameOfLife<T extends NeighbourProvider<T>> {
     }
 
     private void updateActiveCubes() {
-        final Set<T> newActiveCubes = new HashSet<>();
-        neighbourCount.forEach((p,n) -> {
-            final var currentState = activeCubes.contains(p)?CellState.ALIVE:CellState.DEAD;
-            final var newState = gameOfLifeRule.newState(currentState,n);
-            if (newState == CellState.ALIVE) {
-                newActiveCubes.add(p);
-            }
-        });
-        activeCubes.clear();
-        activeCubes = newActiveCubes;
+        final Predicate<Map.Entry<T,Integer>> isAliveCell = e -> {
+            final var position = e.getKey();
+            final int nbNeighbour = e.getValue();
+            final var currentState = aliveCells.contains(position) ? CellState.ALIVE : CellState.DEAD;
+            final var newState = gameOfLifeRule.computeNewState(currentState, nbNeighbour);
+            return newState == CellState.ALIVE;
+        };
+
+        final Set<T> newActiveCells = neighbourCount.entrySet()
+                                                    .stream()
+                                                    .filter(isAliveCell)
+                                                    .map(Map.Entry::getKey)
+                                                    .collect(Collectors.toSet());
+
+        aliveCells.clear();
+        aliveCells = newActiveCells;
     }
 
-    public long numberOfActiveCells() {
-        return activeCubes.size();
+    public int numberOfActiveCells() {
+        return aliveCells.size();
     }
 
 }

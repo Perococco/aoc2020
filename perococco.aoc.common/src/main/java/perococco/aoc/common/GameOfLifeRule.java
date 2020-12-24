@@ -4,7 +4,7 @@ import lombok.NonNull;
 
 public interface GameOfLifeRule {
 
-    @NonNull CellState newState(@NonNull CellState previousState, int nbNeighbour);
+    @NonNull CellState computeNewState(@NonNull CellState previousState, int nbNeighbour);
 
     GameOfLifeRule DEFAULT_RULE = (current,neighbour) -> {
         if (neighbour == 3) {

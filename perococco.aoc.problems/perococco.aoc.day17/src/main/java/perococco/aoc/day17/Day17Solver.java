@@ -6,7 +6,7 @@ import perococco.aoc.common.GameOfLife;
 import perococco.aoc.input.Converter;
 import perococco.aoc.input.SmartSolver;
 
-public abstract class Day17Solver extends SmartSolver<ArrayOfChar, Long> {
+public abstract class Day17Solver extends SmartSolver<ArrayOfChar, Integer> {
 
     @Override
     protected @NonNull Converter<ArrayOfChar> getConverter() {
@@ -16,7 +16,7 @@ public abstract class Day17Solver extends SmartSolver<ArrayOfChar, Long> {
     protected abstract GameOfLife<?> createGameOfLife(@NonNull ArrayOfChar input);
 
     @Override
-    public final @NonNull Long solve(@NonNull ArrayOfChar input) {
+    public final @NonNull Integer solve(@NonNull ArrayOfChar input) {
         final var gameOfLife = createGameOfLife(input);
         gameOfLife.performCycles(6);
         return gameOfLife.numberOfActiveCells();
