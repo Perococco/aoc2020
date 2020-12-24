@@ -2,11 +2,12 @@ package perococco.aoc.day17;
 
 import lombok.NonNull;
 import lombok.Value;
+import perococco.aoc.common.NeighbourProvider;
 
 import java.util.stream.Stream;
 
 @Value
-public class Point3D implements  NeighbourProvider<Point3D> {
+public class Point3D implements NeighbourProvider<Point3D> {
     int x;
     int y;
     int z;

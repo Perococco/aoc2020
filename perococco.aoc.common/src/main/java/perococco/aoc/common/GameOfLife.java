@@ -1,9 +1,9 @@
-package perococco.aoc.day17;
+package perococco.aoc.common;
 
+import com.google.common.collect.ImmutableSet;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import perococco.aoc.common.ArrayOfChar;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,14 +14,6 @@ import java.util.function.BiFunction;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class GameOfLife<T extends NeighbourProvider<T>> {
 
-    public static @NonNull GameOfLife<Point3D> initializeIn3D(@NonNull ArrayOfChar arrayOfChar) {
-        return initialize(arrayOfChar,(x,y) -> Point3D.of(x,y,0));
-    }
-
-    public static @NonNull GameOfLife<Point4D> initializeIn4D(@NonNull ArrayOfChar arrayOfChar) {
-        return initialize(arrayOfChar,(x,y) -> Point4D.of(x,y,0,0));
-
-    }
     public static <T extends NeighbourProvider<T>> @NonNull GameOfLife<T> initialize(@NonNull ArrayOfChar arrayOfChar, @NonNull BiFunction<Integer,Integer,? extends T> pointFactory) {
         final Set<T> listOfPoints = new HashSet<>();
         for (int y = 0; y < arrayOfChar.height(); y++) {
@@ -31,10 +23,19 @@ public class GameOfLife<T extends NeighbourProvider<T>> {
                 }
             }
         }
-        return new GameOfLife<T>(listOfPoints);
+        return new GameOfLife<T>(listOfPoints,GameOfLifeRule.DEFAULT_RULE);
+    }
+
+    public static <T extends NeighbourProvider<T>> @NonNull GameOfLife<T> initialize(@NonNull ImmutableSet<T> initialState) {
+        return new GameOfLife<T>(new HashSet<T>(initialState),GameOfLifeRule.DEFAULT_RULE);
+    }
+
+    public static <T extends NeighbourProvider<T>> @NonNull GameOfLife<T> initialize(@NonNull ImmutableSet<T> initialState, @NonNull GameOfLifeRule gameOfLifeRule) {
+        return new GameOfLife<T>(new HashSet<T>(initialState),gameOfLifeRule);
     }
 
     private @NonNull Set<T> activeCubes;
+    private final GameOfLifeRule gameOfLifeRule;
     private final @NonNull Map<T,Integer> neighbourCount = new HashMap<>();
 
     public void performCycles(int numberOfCycles) {
@@ -64,25 +65,17 @@ public class GameOfLife<T extends NeighbourProvider<T>> {
     private void updateActiveCubes() {
         final Set<T> newActiveCubes = new HashSet<>();
         neighbourCount.forEach((p,n) -> {
-            switch (n) {
-                case 3 -> newActiveCubes.add(p);
-                case 2 -> {
-                    if (activeCubes.contains(p)) {
-                        newActiveCubes.add(p);
-                    }
-                }
-                default -> {}
+            final var currentState = activeCubes.contains(p)?CellState.ALIVE:CellState.DEAD;
+            final var newState = gameOfLifeRule.newState(currentState,n);
+            if (newState == CellState.ALIVE) {
+                newActiveCubes.add(p);
             }
         });
         activeCubes.clear();
         activeCubes = newActiveCubes;
     }
 
-    // nb-voisin    0 1 2 3 4 5 6 ---
-    // active       0
-    // active-next     1/0  1
-
-    public long numberOfActiveCubes() {
+    public long numberOfActiveCells() {
         return activeCubes.size();
     }
 

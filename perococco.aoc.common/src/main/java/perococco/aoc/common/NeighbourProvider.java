@@ -1,4 +1,4 @@
-package perococco.aoc.day17;
+package perococco.aoc.common;
 
 import lombok.NonNull;
 

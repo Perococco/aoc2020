@@ -2,6 +2,7 @@ package perococco.aoc.day17;
 
 import lombok.NonNull;
 import lombok.Value;
+import perococco.aoc.common.NeighbourProvider;
 
 import java.util.stream.Stream;
 
