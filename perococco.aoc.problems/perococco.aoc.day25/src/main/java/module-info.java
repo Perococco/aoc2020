@@ -6,6 +6,7 @@ module perococco.aoc.day25 {
     requires static lombok;
 
     requires perococco.aoc.input;
+    requires com.google.common;
 
     exports perococco.aoc.day25;
 
